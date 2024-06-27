@@ -60,7 +60,14 @@
 
                                         <div class="form-group">
                                             <label for="merk">Merk</label>
-                                            <input id="merk" class="form-control border p-2" type="text" name="merk" value="{{ old('merk') }}">
+                                            <input list="merk-list" id="merk" name="merk" class="form-control border p-2" value="{{ old('merk') }}">
+                                            <datalist id="merk-list">
+                                                <option value="Apple"></option>
+                                                <option value="Dell"></option>
+                                                <option value="HP"></option>
+                                                <option value="Lenovo"></option>
+                                                <option value="Asus"></option>
+                                            </datalist>
                                             @if ($errors->has('merk'))
                                             <div class="text-danger mt-2">{{ $errors->first('merk') }}</div>
                                             @endif

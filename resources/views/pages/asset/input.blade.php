@@ -157,22 +157,24 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset Lama') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kategori Asset') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Asset Position') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Jenis') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Merk') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Location') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Description') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Merk') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Type') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Specification') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial Number') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('OS') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Tanggal Perolehan') }}</th>
                                             @if (Auth::check() && (Auth::user()->location != 'Site Molore' && Auth::user()->location != 'Office Kendari'))
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Nilai Perolehan') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Nilai Saat Ini') }}</th>
                                             @endif
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Sisa Waktu Pakai (hari)') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Location') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Status') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Hand Over Date') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('NIK') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('User') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Dept') }}</th>
                                             @if (Auth::check() && (Auth::user()->status == 'Administrator' || Auth::user()->status == 'Modified' || Auth::user()->status == 'Super Admin'))
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Action') }}</th>
                                             @endif
@@ -181,15 +183,15 @@
                                     <tbody>
                                         @foreach($inventory as $inv)
                                         <tr class="text-center" style="font-size: 14px;">
-                                            <td>{{ $inv->asset_code }}</td>
-                                            <td>{{ $inv->old_asset_code != 0 ? $inv->old_asset_code : '-' }}</td>
-                                            <td>{{ $inv->asset_category }}</td>
-                                            <td>{{ $inv->asset_position_dept }}</td>
-                                            <td>{{ $inv->asset_type }}</td>
-                                            <td>{{ !empty($inv->merk) ? $inv->merk : '-' }}</td>
-                                            <td>{{ $inv->description }}</td>
+                                            <td>{{ $inv->asset_code ?? '-' }}</td>
+                                            <td>{{ $inv->location ?? '-' }}</td>
+                                            <td>{{ $inv->description ?? '-' }}</td>
+                                            <td>{{ $inv->merk ?? '-' }}</td>
+                                            <td>{{ $inv->type ?? '-' }}</td>
+                                            <td>{{ $inv->specification ?? '-' }}</td>
                                             <td>{{ !empty($inv->serial_number) ? $inv->serial_number : '-' }}</td>
-                                            <td>{{ $inv->acquisition_date }}</td>
+                                            <td>{{ $inv->os ?? '-' }}</td>
+                                            <td>{{ $inv->acquisition_date ?? '-' }}</td>
                                             <?php
                                             if ($inv->acquisition_date === '-') {
                                                 $message = "Tanggal tidak terdefinisi";
@@ -260,13 +262,11 @@
                                             @endif
                                             @endif
                                             <td>{{ $message }}</td>
-                                            <td>{{ $inv->location }}</td>
-                                            <td>{{ $inv->status }}</td>
-                                            @if(isset($inv->user))
-                                            <td>{{ $inv->user }}</td>
-                                            @else
-                                            <td>-</td>
-                                            @endif
+                                            <td>{{ $inv->status ?? '-' }}</td>
+                                            <td>{{ $inv->hand_over_date ?? '-' }}</td>
+                                            <td>{{ $inv->nik ?? '-' }}</td>
+                                            <td>{{ $inv->user ?? '-' }}</td>
+                                            <td>{{ $inv->dept ?? '-' }}</td>
                                             @if (Auth::check() && Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin')
                                             <td>
                                                 <div class="d-flex align-items-center justify-content-center">

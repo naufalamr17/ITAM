@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
             $table->string('asset_code')->nullable(); // Kode Aset
-            $table->string('position');
             $table->string('location');
             $table->string('description');
             $table->string('merk');
