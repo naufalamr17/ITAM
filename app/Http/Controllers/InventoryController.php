@@ -381,15 +381,15 @@ class InventoryController extends Controller
             $data = [
                 'id' => $inventory->id,
                 'location' => $inventory->location,
-                'asset_category' => $inventory->asset_category,
-                'asset_position_dept' => $inventory->asset_position_dept,
-                'asset_type' => $inventory->asset_type,
                 'description' => $inventory->description,
                 'serial_number' => $inventory->serial_number,
                 'acquisition_date' => $inventory->acquisition_date,
                 'useful_life' => $inventory->useful_life,
                 'acquisition_value' => $inventory->acquisition_value,
                 'status' => $inventory->status,
+                'merk' => $inventory->merk,
+                'type' => $inventory->type,
+                'specification' => $inventory->specification,
                 // Tambahkan data lain yang ingin Anda kembalikan
             ];
 
