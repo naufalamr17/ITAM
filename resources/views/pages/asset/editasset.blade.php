@@ -188,7 +188,7 @@
                                         <!-- Remarks -->
                                         <div class="form-group">
                                             <label for="note">Remarks</label>
-                                            <input id="note" class="form-control border p-2" type="text" name="note" value="{{ old('note', $userhist->note) }}">
+                                            <input id="note" class="form-control border p-2" type="text" name="note" value="{{ old('note', $userhist ? $userhist->note : '') }}">
                                             @if ($errors->has('note'))
                                             <div class="text-danger mt-2">{{ $errors->first('note') }}</div>
                                             @endif
