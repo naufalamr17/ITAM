@@ -168,10 +168,6 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset Lama') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kategori Asset') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Asset Position') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Jenis') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Merk') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Description') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial') }}</th>
@@ -192,10 +188,6 @@
                                         @foreach($inventoryData as $inventory)
                                         <tr class="text-center" style="font-size: 14px;">
                                             <td>{{ $inventory->asset_code ?? '-' }}</td>
-                                            <td>{{ $inventory->old_asset_code ?? '-' }}</td>
-                                            <td>{{ $inventory->asset_category ?? '-' }}</td>
-                                            <td>{{ $inventory->asset_position_dept ?? '-' }}</td>
-                                            <td>{{ $inventory->asset_type ?? '-' }}</td>
                                             <td>{{ $inventory->merk ?? '-' }}</td>
                                             <td>{{ $inventory->description ?? '-' }}</td>
                                             <td>{{ $inventory->serial_number ?? '-' }}</td>
@@ -259,7 +251,7 @@
                 "pageLength": -1,
                 "columnDefs": [{
                         "orderable": true,
-                        "targets": 9
+                        "targets": 5
                     }, // Enable ordering on the 8th column (index 7)
                     {
                         "orderable": false,
@@ -267,7 +259,7 @@
                     } // Disable ordering on all other columns
                 ],
                 "order": [
-                    [9, 'desc']
+                    [5, 'desc']
                 ],
                 "dom": '<"top">rt<"bottom"ip><"clear">',
             });
@@ -287,9 +279,9 @@
             $('#yearFilter').on('keyup', function() {
                 var year = $(this).val().trim();
                 if (year !== '') {
-                    table.columns(9).search('^' + year, true, false).draw();
+                    table.columns(5).search('^' + year, true, false).draw();
                 } else {
-                    table.columns(9).search('').draw();
+                    table.columns(5).search('').draw();
                 }
             });
 
@@ -297,9 +289,9 @@
             $('#statusFilter').on('change', function() {
                 var status = $(this).val().trim();
                 if (status !== '') {
-                    table.columns(14).search(status).draw();
+                    table.columns(10).search(status).draw();
                 } else {
-                    table.columns(14).search('').draw();
+                    table.columns(10).search('').draw();
                 }
             });
 
