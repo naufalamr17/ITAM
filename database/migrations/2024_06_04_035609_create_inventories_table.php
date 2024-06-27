@@ -27,7 +27,7 @@ return new class extends Migration
             $table->integer('useful_life')->default(4);
             $table->bigInteger('acquisition_value')->default(0);
             $table->enum('status', ['Good', 'Breakdown', 'Repair', 'Waiting Dispose', 'Dispose'])->default('Good');
-            $table->date('hand_over_date')->nullable();
+            $table->string('hand_over_date')->nullable();
             $table->string('nik')->nullable();
             $table->string('user')->nullable();
             $table->string('job_position')->nullable();
