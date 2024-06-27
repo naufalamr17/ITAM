@@ -198,40 +198,4 @@
         </div>
     </main>
     <x-plugins></x-plugins>
-
-    <script>
-        document.getElementById('asset_category').addEventListener('change', function() {
-            var usefulLifeInput = document.getElementById('useful_life');
-            var selectedCategory = this.value;
-            var usefulLife;
-
-            switch (selectedCategory) {
-                case 'Kendaraan':
-                    usefulLife = 8;
-                    break;
-                case 'Peralatan':
-                    usefulLife = 4;
-                    break;
-                case 'Bangunan':
-                    usefulLife = 20;
-                    break;
-                case 'Mesin':
-                    usefulLife = 16;
-                    break;
-                case 'Alat Berat':
-                    usefulLife = 16;
-                    break;
-                case 'Alat Lab & Preparasi':
-                    usefulLife = 8;
-                    break;
-                default:
-                    usefulLife = '';
-            }
-
-            usefulLifeInput.value = usefulLife;
-        });
-
-        // Trigger change event to set initial value if a category is already selected
-        document.getElementById('asset_category').dispatchEvent(new Event('change'));
-    </script>
 </x-layout>
