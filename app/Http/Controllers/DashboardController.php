@@ -68,7 +68,6 @@ class DashboardController extends Controller
             $inventory = inventory::join('disposes', 'inventories.id', '=', 'disposes.inv_id')
                 ->select(
                     'inventories.asset_code',
-                    'inventories.asset_type',
                     'inventories.serial_number',
                     'inventories.useful_life',
                     'inventories.location',
@@ -83,7 +82,6 @@ class DashboardController extends Controller
             $repair = inventory::join('repairstatuses', 'inventories.id', '=', 'repairstatuses.inv_id')
                 ->select(
                     'inventories.asset_code',
-                    'inventories.asset_type',
                     'inventories.serial_number',
                     'inventories.useful_life',
                     'inventories.location',
@@ -143,7 +141,6 @@ class DashboardController extends Controller
             $inventory = Inventory::join('disposes', 'inventories.id', '=', 'disposes.inv_id')
                 ->select(
                     'inventories.asset_code',
-                    'inventories.asset_type',
                     'inventories.serial_number',
                     'inventories.useful_life',
                     'inventories.location',
@@ -160,7 +157,6 @@ class DashboardController extends Controller
             $repair = Inventory::join('repairstatuses', 'inventories.id', '=', 'repairstatuses.inv_id')
                 ->select(
                     'inventories.asset_code',
-                    'inventories.asset_type',
                     'inventories.serial_number',
                     'inventories.useful_life',
                     'inventories.location',

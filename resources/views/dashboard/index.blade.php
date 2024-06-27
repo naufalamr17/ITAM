@@ -20,20 +20,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                    <div class="card z-index-2">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                            <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
-                                <div class="chart">
-                                    <canvas id="stackedBarChart" class="chart-canvas" height="170"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="mb-0 "> Status Asset per Kategori </h6>
-                        </div>
-                    </div>
-                </div>
                 @if (Auth::check() && Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager')
                 <div class="col-lg-4 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2">
@@ -93,7 +79,7 @@
                     </div>
                 </div>
                 @endif
-                <div class="col-lg-8 col-md-6 mt-4 mb-4">
+                <div class="col-lg-12 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                             <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
@@ -102,7 +88,6 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Jenis') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Sisa Waktu Pakai (hari)') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Location') }}</th>
@@ -116,7 +101,6 @@
                                             @foreach($repair as $item)
                                             <tr class="text-center text-xxs">
                                                 <td>{{ $item->asset_code ?? '-' }}</td>
-                                                <td>{{ $item->asset_type ?? '-' }}</td>
                                                 <td>{{ $item->serial_number ?? '-' }}</td>
                                                 <?php
                                                 if ($item->acquisition_date === '-') {
@@ -166,7 +150,6 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Jenis') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Sisa Waktu Pakai (hari)') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Location') }}</th>
@@ -179,7 +162,6 @@
                                             @foreach($inventory as $item)
                                             <tr class="text-center text-xxs">
                                                 <td>{{ $item->asset_code ?? '-' }}</td>
-                                                <td>{{ $item->asset_type ?? '-' }}</td>
                                                 <td>{{ $item->serial_number ?? '-' }}</td>
                                                 <?php
                                                 if ($item->acquisition_date === '-') {
