@@ -51,8 +51,14 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="description">Deskripsi</label>
-                                            <textarea id="description" class="form-control border p-2" name="description" required>{{ old('description') }}</textarea>
+                                            <label for="description">Category</label>
+                                            <input list="asset_categories" id="description" class="form-control border p-2" name="description" required value="{{ old('description') }}">
+                                            <datalist id="asset_categories">
+                                                <option value="Laptop">
+                                                <option value="PC">
+                                                <option value="Wireless">
+                                                <option value="Printer">
+                                            </datalist>
                                             @if ($errors->has('description'))
                                             <div class="text-danger mt-2">{{ $errors->first('description') }}</div>
                                             @endif
