@@ -104,6 +104,14 @@
                                             <div class="text-danger mt-2">{{ $errors->first('os') }}</div>
                                             @endif
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="installed_apps">Installed Apps</label>
+                                            <input id="installed_apps" class="form-control border p-2" type="text" name="installed_apps" value="{{ old('installed_apps') }}">
+                                            @if ($errors->has('os'))
+                                            <div class="text-danger mt-2">{{ $errors->first('installed_apps') }}</div>
+                                            @endif
+                                        </div>
                                     </div>
 
                                     <div class="col-md-6">
@@ -144,6 +152,14 @@
                                             <input id="user" class="form-control border p-2" type="text" name="user" value="{{ old('user') }}">
                                             @if ($errors->has('user'))
                                             <div class="text-danger mt-2">{{ $errors->first('user') }}</div>
+                                            @endif
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="job_position">Job Position</label>
+                                            <input id="job_position" class="form-control border p-2" type="text" name="job_position" value="{{ old('job_position') }}">
+                                            @if ($errors->has('job_position'))
+                                            <div class="text-danger mt-2">{{ $errors->first('job_position') }}</div>
                                             @endif
                                         </div>
 

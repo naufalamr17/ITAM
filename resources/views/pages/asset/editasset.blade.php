@@ -112,6 +112,14 @@
                                             <div class="text-danger mt-2">{{ $errors->first('os') }}</div>
                                             @endif
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="installed_apps">Installed Apps</label>
+                                            <input id="installed_apps" class="form-control border p-2" type="text" name="installed_apps" value="{{ old('installed_apps', $asset->installed_apps) }}">
+                                            @if ($errors->has('os'))
+                                            <div class="text-danger mt-2">{{ $errors->first('installed_apps') }}</div>
+                                            @endif
+                                        </div>
                                     </div>
 
                                     <div class="col-md-6">
@@ -160,6 +168,14 @@
                                             @endif
                                         </div>
 
+                                        <div class="form-group">
+                                            <label for="job_position">Job Position</label>
+                                            <input id="job_position" class="form-control border p-2" type="text" name="job_position" value="{{ old('job_position', $asset->job_position) }}">
+                                            @if ($errors->has('job_position'))
+                                            <div class="text-danger mt-2">{{ $errors->first('job_position') }}</div>
+                                            @endif
+                                        </div>
+
                                         <!-- Dept -->
                                         <div class="form-group">
                                             <label for="dept">Dept</label>
@@ -172,7 +188,7 @@
                                         <!-- Remarks -->
                                         <div class="form-group">
                                             <label for="note">Remarks</label>
-                                            <input id="note" class="form-control border p-2" type="text" name="note" value="{{ old('note', $asset->note) }}">
+                                            <input id="note" class="form-control border p-2" type="text" name="note" value="{{ old('note', $userhist->note) }}">
                                             @if ($errors->has('note'))
                                             <div class="text-danger mt-2">{{ $errors->first('note') }}</div>
                                             @endif

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('hand_over_date')->nullable();
             $table->string('nik')->nullable();
             $table->string('user')->nullable();
+            $table->string('job_position')->nullable();
             $table->string('dept')->nullable();
             $table->string('note')->nullable();
             $table->timestamps(); // Menambahkan kolom created_at dan updated_at

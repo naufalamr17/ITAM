@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('type');
             $table->string('specification'); 
             $table->string('serial_number')->nullable(); 
-            $table->string('os'); 
+            $table->string('os');
+            $table->string('installed_apps');
             $table->string('acquisition_date'); 
             $table->date('disposal_date')->nullable(); 
             $table->integer('useful_life')->default(4);
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->date('hand_over_date')->nullable();
             $table->string('nik')->nullable();
             $table->string('user')->nullable();
+            $table->string('job_position')->nullable();
             $table->string('dept')->nullable();
             $table->timestamps();
         });

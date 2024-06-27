@@ -54,12 +54,14 @@ class InventoryController extends Controller
             'specification' => 'nullable|string',
             'serial_number' => 'nullable|string',
             'os' => 'nullable|string',
+            'installed_apps' => 'nullable|string',
             'acquisition_date' => 'required|date',
             'disposal_date' => 'nullable|date',
             'acquisition_value' => 'nullable|numeric',
             'hand_over_date' => 'nullable|date',
             'nik' => 'nullable|string',
             'user' => 'nullable|string',
+            'job_position' => 'nullable|string',
             'dept' => 'nullable|string',
             'note' => 'nullable|string',
         ]);
@@ -68,7 +70,7 @@ class InventoryController extends Controller
         $asset = Inventory::create($validatedData);
 
         // dd($asset);
-        
+
         if ($request->store_to_database == 'true') {
             // Ambil ID aset yang baru saja disimpan
             $inv_id = $asset->id;
@@ -79,7 +81,9 @@ class InventoryController extends Controller
             $hist = Userhist::create([
                 'inv_id' => $inv_id,
                 'hand_over_date' => $validatedData['hand_over_date'], // Pastikan untuk menyesuaikan dengan atribut yang sesuai
+                'nik' => $validatedData['nik'], // Pastikan untuk menyesuaikan dengan atribut yang sesuai
                 'user' => $validatedData['user'], // Sesuaikan dengan atribut yang sesuai
+                'job_position' => $validatedData['job_position'], // Pastikan untuk menyesuaikan dengan atribut yang sesuai
                 'dept' => $validatedData['dept'], // Sesuaikan dengan atribut yang sesuai
                 'note' => $validatedData['note'], // Sesuaikan dengan atribut yang sesuai
             ]);
@@ -100,10 +104,10 @@ class InventoryController extends Controller
     {
         $asset = inventory::findOrFail($id);
         $userhist = Userhist::where('inv_id', $id)
-            ->where('hand_over_date', $asset->hand_over_date)
+            ->orderBy('created_at', 'desc')
             ->first();
 
-        // dd($asset);
+        // dd($userhist);
         return view('pages.asset.editasset', compact('asset', 'userhist'));
     }
 
@@ -228,7 +232,9 @@ class InventoryController extends Controller
             $hist = Userhist::create([
                 'inv_id' => $inv_id,
                 'hand_over_date' => $request['hand_over_date'], // Pastikan untuk menyesuaikan dengan atribut yang sesuai
+                'nik' => $request['nik'], // Pastikan untuk menyesuaikan dengan atribut yang sesuai
                 'user' => $request['user'], // Sesuaikan dengan atribut yang sesuai
+                'job_position' => $request['job_position'], // Pastikan untuk menyesuaikan dengan atribut yang sesuai
                 'dept' => $request['dept'], // Sesuaikan dengan atribut yang sesuai
                 'note' => $request['note'], // Sesuaikan dengan atribut yang sesuai
             ]);

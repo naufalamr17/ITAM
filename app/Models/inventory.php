@@ -18,6 +18,7 @@ class inventory extends Model
         'specification',
         'serial_number',
         'os',
+        'installed_apps',
         'acquisition_date',
         'disposal_date',
         'useful_life',
@@ -26,6 +27,7 @@ class inventory extends Model
         'hand_over_date',
         'nik',
         'user',
+        'job_position',
         'dept',
     ];
 

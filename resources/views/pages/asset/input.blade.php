@@ -164,6 +164,7 @@
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Specification') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial Number') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('OS') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Installed Apps') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Tanggal Perolehan') }}</th>
                                             @if (Auth::check() && (Auth::user()->location != 'Site Molore' && Auth::user()->location != 'Office Kendari'))
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Nilai Perolehan') }}</th>
@@ -174,6 +175,7 @@
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Hand Over Date') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('NIK') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('User') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Job Position') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Dept') }}</th>
                                             @if (Auth::check() && (Auth::user()->status == 'Administrator' || Auth::user()->status == 'Modified' || Auth::user()->status == 'Super Admin'))
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Action') }}</th>
@@ -191,6 +193,7 @@
                                             <td>{{ $inv->specification ?? '-' }}</td>
                                             <td>{{ !empty($inv->serial_number) ? $inv->serial_number : '-' }}</td>
                                             <td>{{ $inv->os ?? '-' }}</td>
+                                            <td>{{ $inv->installed_apps ?? '-' }}</td>
                                             <td>{{ $inv->acquisition_date ?? '-' }}</td>
                                             <?php
                                             if ($inv->acquisition_date === '-') {
@@ -266,6 +269,7 @@
                                             <td>{{ $inv->hand_over_date ?? '-' }}</td>
                                             <td>{{ $inv->nik ?? '-' }}</td>
                                             <td>{{ $inv->user ?? '-' }}</td>
+                                            <td>{{ $inv->job_position ?? '-' }}</td>
                                             <td>{{ $inv->dept ?? '-' }}</td>
                                             @if (Auth::check() && Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin')
                                             <td>
@@ -323,7 +327,7 @@
                 "pageLength": 50,
                 "columnDefs": [{
                         "orderable": true,
-                        "targets": [0, 8]
+                        "targets": [0, 9]
                     }, // Enable ordering on the 8th column (index 7)
                     {
                         "orderable": false,
@@ -331,7 +335,7 @@
                     } // Disable ordering on all other columns
                 ],
                 "order": [
-                    [8, 'desc']
+                    [9, 'desc']
                 ],
                 "dom": '<"top">rt<"bottom"ip><"clear">',
             });

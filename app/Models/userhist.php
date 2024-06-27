@@ -12,7 +12,9 @@ class userhist extends Model
     protected $fillable = [
         'inv_id',
         'hand_over_date',
+        'nik',
         'user',
+        'job_position',
         'dept',
         'note',
     ];
