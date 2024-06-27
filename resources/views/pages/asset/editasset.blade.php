@@ -142,9 +142,9 @@
                                         </div>
 
                                         <!-- Tanggal Serah Terima -->
-                                        <div class="form-group">
+                                        <div class="form-group" style="display: none;">
                                             <label for="hand_over_date">Tanggal Serah Terima</label>
-                                            <input type="date" class="form-control border p-2" id="hand_over_date" name="hand_over_date" value="{{ old('hand_over_date', $asset->hand_over_date) }}">
+                                            <input type="date" class="form-control border p-2" id="hand_over_date" name="hand_over_date" value="{{ now()->format('Y-m-d') }}">
                                             @if ($errors->has('hand_over_date'))
                                             <div class="text-danger mt-2">{{ $errors->first('hand_over_date') }}</div>
                                             @endif

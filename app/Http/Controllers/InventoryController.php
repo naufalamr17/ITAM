@@ -258,6 +258,7 @@ class InventoryController extends Controller
                     'userhists.dept',
                     'userhists.note'
                 )
+                ->orderBy('userhists.created_at', 'desc')
                 ->get();
         } else {
             $userhist = Userhist::join('inventories', 'userhists.inv_id', '=', 'inventories.id')
@@ -273,6 +274,7 @@ class InventoryController extends Controller
                     'userhists.note'
                 )
                 ->where('inventories.location', Auth::user()->location)
+                ->orderBy('userhists.created_at', 'desc')
                 ->get();
         }
         return view('pages.asset.history', compact('userhist'));
