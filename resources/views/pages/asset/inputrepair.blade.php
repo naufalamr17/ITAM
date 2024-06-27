@@ -232,7 +232,7 @@
                         },
                         success: function(response) {
                             // Cek jika status adalah 'dispose' dan tampilkan alert
-                            if (response.status === 'Dispose') {
+                            if (response.status === 'Dispose' || response.status === 'Waiting Dispose') {
                                 $('#location').val('');
                                 $('#description').val('');
                                 $('#serial_number').val('');
@@ -243,7 +243,7 @@
                                 $('#merk').val('')
                                 $('#type').val('')
                                 $('#specification').val('')
-                                alert('Status is dispose');
+                                alert('Status is waiting dispose or dispose');
                             } else {
                                 // Isi input lainnya dengan data yang diterima dari permintaan AJAX
                                 $('#location').val(response.location);
