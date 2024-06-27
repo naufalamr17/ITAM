@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('specification'); 
             $table->string('serial_number')->nullable(); 
             $table->string('os');
-            $table->string('installed_apps');
+            $table->string('installed_apps')->nullable();
             $table->string('acquisition_date'); 
-            $table->date('disposal_date')->nullable(); 
+            $table->string('disposal_date')->nullable(); 
             $table->integer('useful_life')->default(4);
             $table->bigInteger('acquisition_value')->default(0);
             $table->enum('status', ['Good', 'Breakdown', 'Repair', 'Waiting Dispose', 'Dispose'])->default('Good');
