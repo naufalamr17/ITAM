@@ -146,9 +146,6 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kategori Asset') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Asset Position') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Jenis') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Description') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Location') }}</th>
@@ -163,9 +160,6 @@
                                         @foreach($userhist as $history)
                                         <tr class="border-b border-gray-200 text-center" style="font-size: 14px;">
                                             <td>{{ $history->kode_asset }}</td>
-                                            <td>{{ $history->asset_category }}</td>
-                                            <td>{{ $history->asset_position_dept }}</td>
-                                            <td>{{ $history->asset_type }}</td>
                                             <td>{{ $history->description }}</td>
                                             <td>{{ $history->serial_number }}</td>
                                             <td>{{ $history->location }}</td>
@@ -199,7 +193,7 @@
                 "pageLength": 50,
                 "columnDefs": [{
                         "orderable": true,
-                        "targets": 8
+                        "targets": 5
                     }, // Enable ordering on the 8th column (index 7)
                     {
                         "orderable": false,
@@ -207,7 +201,7 @@
                     } // Disable ordering on all other columns
                 ],
                 "order": [
-                    [8, 'desc']
+                    [5, 'desc']
                 ],
                 "dom": '<"top">rt<"bottom"ip><"clear">',
             });

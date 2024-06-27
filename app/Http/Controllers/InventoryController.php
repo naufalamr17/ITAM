@@ -249,9 +249,6 @@ class InventoryController extends Controller
             $userhist = Userhist::join('inventories', 'userhists.inv_id', '=', 'inventories.id')
                 ->select(
                     'inventories.asset_code as kode_asset',
-                    'inventories.asset_category',
-                    'inventories.asset_position_dept',
-                    'inventories.asset_type',
                     'inventories.description',
                     'inventories.serial_number',
                     'inventories.location',
@@ -266,9 +263,6 @@ class InventoryController extends Controller
             $userhist = Userhist::join('inventories', 'userhists.inv_id', '=', 'inventories.id')
                 ->select(
                     'inventories.asset_code as kode_asset',
-                    'inventories.asset_category',
-                    'inventories.asset_position_dept',
-                    'inventories.asset_type',
                     'inventories.description',
                     'inventories.serial_number',
                     'inventories.location',
@@ -290,7 +284,6 @@ class InventoryController extends Controller
             $inventory = inventory::join('repairstatuses', 'inventories.id', '=', 'repairstatuses.inv_id')
                 ->select(
                     'inventories.asset_code',
-                    'inventories.asset_type',
                     'inventories.serial_number',
                     'inventories.useful_life',
                     'inventories.acquisition_date',
@@ -304,7 +297,6 @@ class InventoryController extends Controller
             $inventory = inventory::join('repairstatuses', 'inventories.id', '=', 'repairstatuses.inv_id')
                 ->select(
                     'inventories.asset_code',
-                    'inventories.asset_type',
                     'inventories.serial_number',
                     'inventories.useful_life',
                     'inventories.acquisition_date',
@@ -413,7 +405,6 @@ class InventoryController extends Controller
             $inventory = inventory::join('disposes', 'inventories.id', '=', 'disposes.inv_id')
                 ->select(
                     'inventories.asset_code',
-                    'inventories.asset_type',
                     'inventories.serial_number',
                     'inventories.useful_life',
                     'inventories.acquisition_date',
@@ -429,7 +420,6 @@ class InventoryController extends Controller
             $inventory = inventory::join('disposes', 'inventories.id', '=', 'disposes.inv_id')
                 ->select(
                     'inventories.asset_code',
-                    'inventories.asset_type',
                     'inventories.serial_number',
                     'inventories.useful_life',
                     'inventories.acquisition_date',

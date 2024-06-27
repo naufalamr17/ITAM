@@ -157,7 +157,6 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Jenis') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Sisa Waktu Pakai (hari)') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Location') }}</th>
@@ -175,7 +174,6 @@
                                         @foreach($inventory as $item)
                                         <tr class="text-center" style="font-size: 14px;">
                                             <td>{{ $item->asset_code ?? '-' }}</td>
-                                            <td>{{ $item->asset_type ?? '-' }}</td>
                                             <td>{{ $item->serial_number ?? '-' }}</td>
                                             <?php
                                             if ($item->acquisition_date === '-') {
@@ -280,7 +278,7 @@
                 "pageLength": 50,
                 "columnDefs": [{
                         "orderable": true,
-                        "targets": 6
+                        "targets": 5
                     }, // Enable ordering on the 8th column (index 7)
                     {
                         "orderable": false,
@@ -288,7 +286,7 @@
                     } // Disable ordering on all other columns
                 ],
                 "order": [
-                    [6, 'desc']
+                    [5, 'desc']
                 ],
                 "dom": '<"top">rt<"bottom"ip><"clear">',
             });
