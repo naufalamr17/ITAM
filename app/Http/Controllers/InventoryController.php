@@ -496,8 +496,7 @@ class InventoryController extends Controller
                     DB::raw('COALESCE(disposes.note, repairstatuses.note) as remarks')
                 )
                 ->orderBy('inventories.acquisition_date', 'desc')
-                ->get()
-                ->unique('asset_code');
+                ->get();
         } else {
             $inventoryData = Inventory::leftJoin('disposes', 'inventories.id', '=', 'disposes.inv_id')
                 ->leftJoin('repairstatuses', 'inventories.id', '=', 'repairstatuses.inv_id')
@@ -520,8 +519,7 @@ class InventoryController extends Controller
                 )
                 ->where('inventories.location', Auth::user()->location)
                 ->orderBy('inventories.acquisition_date', 'desc')
-                ->get()
-                ->unique('asset_code');
+                ->get();
         }
 
         return view('pages.report.list', compact('inventoryData'));
