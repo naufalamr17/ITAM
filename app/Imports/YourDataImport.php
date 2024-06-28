@@ -22,7 +22,7 @@ class YourDataImport implements ToModel, WithHeadingRow
         inventory::create([
             'asset_code' => $row['kode_asset'],
             'location' => ucwords(strtolower($row['lokasi'])),
-            'description' => $row['deskripsi'],
+            'description' => $row['kategori'],
             'merk' => $row['merk'],
             'type' => $row['type'],
             'specification' => $row['specification'],
