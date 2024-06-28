@@ -18,7 +18,7 @@
     <div class="collapse navbar-collapse w-auto max-height-vh-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link {{ $activePage == 'dashboard' ? 'active bg-gradient-danger' : '' }}" href="{{ route('dashboard') }}" style="color: {{ $activePage == 'dashboard' ? 'white' : 'black' }};">
+                <a class="nav-link {{ $activePage == 'dashboard' ? 'active bg-gradient-dark' : '' }}" href="{{ route('dashboard') }}" style="color: {{ $activePage == 'dashboard' ? 'white' : 'black' }};">
                     <div class="text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10" style="color: {{ $activePage == 'dashboard' ? 'white' : 'black' }};">dashboard</i>
                     </div>
@@ -26,7 +26,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $activePage == 'inventory' ? 'active bg-gradient-danger' : '' }}" href="{{ route('inventory') }}" style="color: {{ $activePage == 'inventory' ? 'white' : 'black' }};">
+                <a class="nav-link {{ $activePage == 'inventory' ? 'active bg-gradient-dark' : '' }}" href="{{ route('inventory') }}" style="color: {{ $activePage == 'inventory' ? 'white' : 'black' }};">
                     <div class="text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-plus-circle" style="color: {{ $activePage == 'inventory' ? 'white' : 'black' }};"></i>
                     </div>
@@ -38,7 +38,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $activePage == 'repair_inventory' ? 'active bg-gradient-danger' : '' }}" href="{{ route('repair_inventory') }}" style="color: {{ $activePage == 'repair_inventory' ? 'white' : 'black' }};">
+                <a class="nav-link {{ $activePage == 'repair_inventory' ? 'active bg-gradient-dark' : '' }}" href="{{ route('repair_inventory') }}" style="color: {{ $activePage == 'repair_inventory' ? 'white' : 'black' }};">
                     <div class="text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-wrench" style="color: {{ $activePage == 'repair_inventory' ? 'white' : 'black' }};"></i>
                     </div>
@@ -46,7 +46,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $activePage == 'dispose_inventory' ? 'active bg-gradient-danger' : '' }}" href="{{ route('dispose_inventory') }}" style="color: {{ $activePage == 'dispose_inventory' ? 'white' : 'black' }};">
+                <a class="nav-link {{ $activePage == 'dispose_inventory' ? 'active bg-gradient-dark' : '' }}" href="{{ route('dispose_inventory') }}" style="color: {{ $activePage == 'dispose_inventory' ? 'white' : 'black' }};">
                     <div class="text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-trash-alt" style="color: {{ $activePage == 'dispose_inventory' ? 'white' : 'black' }};"></i>
                     </div>
@@ -54,7 +54,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $activePage == 'history_inventory' ? 'active bg-gradient-danger' : '' }}" href="{{ route('history_inventory') }}" style="color: {{ $activePage == 'history_inventory' ? 'white' : 'black' }};">
+                <a class="nav-link {{ $activePage == 'history_inventory' ? 'active bg-gradient-dark' : '' }}" href="{{ route('history_inventory') }}" style="color: {{ $activePage == 'history_inventory' ? 'white' : 'black' }};">
                     <div class="text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-history" style="color: {{ $activePage == 'history_inventory' ? 'white' : 'black' }};"></i>
                     </div>
@@ -62,7 +62,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $activePage == 'report' ? ' active bg-gradient-danger' : '' }}" href="{{ route('report') }}" style="color: {{ $activePage == 'report' ? 'white' : 'black' }};">
+                <a class="nav-link {{ $activePage == 'report' ? ' active bg-gradient-dark' : '' }}" href="{{ route('report') }}" style="color: {{ $activePage == 'report' ? 'white' : 'black' }};">
                     <div class="text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-chart-line" style="color: {{ $activePage == 'report' ? 'white' : 'black' }};"></i>
                     </div>
@@ -71,7 +71,7 @@
             </li>
             @if (Auth::check() && Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin')
             <li class="nav-item">
-                <a class="nav-link {{ $activePage == 'user-management' ? 'active bg-gradient-danger' : '' }}" href="{{ route('user-management') }}" style="color: {{ $activePage == 'user-management' ? 'white' : 'black' }};">
+                <a class="nav-link {{ $activePage == 'user-management' ? 'active bg-gradient-dark' : '' }}" href="{{ route('user-management') }}" style="color: {{ $activePage == 'user-management' ? 'white' : 'black' }};">
                     <div class="text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-user-circle" style="color: {{ $activePage == 'user-management' ? 'white' : 'black' }};"></i>
                     </div>
@@ -84,7 +84,7 @@
     @if (Auth::check() && Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin')
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
         <div class="mx-3">
-            <a class="btn bg-gradient-danger w-100" href="{{ route('inputexcel') }}" type="button">Import Data</a>
+            <a class="btn bg-gradient-dark w-100" href="{{ route('inputexcel') }}" type="button">Import Data</a>
         </div>
     </div>
     @endif
