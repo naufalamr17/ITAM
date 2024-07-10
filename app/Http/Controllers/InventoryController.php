@@ -29,7 +29,12 @@ class InventoryController extends Controller
                 ->get();
         }
 
-        return view('pages.asset.input', compact('inventory'));
+        // Grouping inventory based on description
+        $group1 = $inventory->whereIn('description', ['Wireless', 'Switch']);
+        $group2 = $inventory->whereIn('description', ['Scanner', 'Printer']);
+        $group3 = $inventory->whereIn('description', ['PC', 'Laptop']);
+
+        return view('pages.asset.input', compact('group1', 'group2', 'group3'));
     }
 
     public function addinventory()
