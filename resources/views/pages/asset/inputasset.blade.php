@@ -65,6 +65,14 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="comp_name">Comp Name</label>
+                                            <input id="comp_name" class="form-control border p-2" type="text" name="comp_name" value="{{ old('comp_name') }}" autofocus>
+                                            @if ($errors->has('comp_name'))
+                                            <div class="text-danger mt-2">{{ $errors->first('comp_name') }}</div>
+                                            @endif
+                                        </div>
+
+                                        <div class="form-group">
                                             <label for="merk">Merk</label>
                                             <input list="merk-list" id="merk" name="merk" class="form-control border p-2" value="{{ old('merk') }}">
                                             <datalist id="merk-list">

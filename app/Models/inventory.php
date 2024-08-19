@@ -13,6 +13,7 @@ class inventory extends Model
         'asset_code',
         'location',
         'description',
+        'comp_name',
         'merk',
         'type',
         'specification',

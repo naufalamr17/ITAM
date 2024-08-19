@@ -158,6 +158,7 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Comp Name') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Location') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Category') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Merk') }}</th>
@@ -187,6 +188,7 @@
                                         @foreach($group3 as $inv)
                                         <tr class="text-center" style="font-size: 14px;">
                                             <td>{{ $inv->asset_code ?? '-' }}</td>
+                                            <td>{{ $inv->comp_name ?? '-' }}</td>
                                             <td>{{ $inv->location ?? '-' }}</td>
                                             <td>{{ $inv->description ?? '-' }}</td>
                                             <td>{{ $inv->merk ?? '-' }}</td>

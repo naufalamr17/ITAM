@@ -54,6 +54,7 @@ class InventoryController extends Controller
             'asset_code' => 'nullable|string',
             'location' => 'nullable|string',
             'description' => 'required|string',
+            'comp_name' => 'nullable|string',
             'merk' => 'nullable|string',
             'type' => 'nullable|string',
             'specification' => 'nullable|string',
