@@ -63,7 +63,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group" hidden>
                                             <label for="hirar">Hirarki</label>
                                             <select id="hirar" class="form-control border p-2" name="hirar">
                                                 <option value="" selected disabled>Select Hirarki</option>
@@ -92,8 +92,8 @@
                                                 <div class="d-flex align-items-center">
                                                     <select name="access[]" class="form-control border p-2" style="margin-right: 10px;" readonly>
                                                         <!-- <option value="" disabled selected>Select Access</option> -->
-                                                        <option value="Asset Management" selected>Asset Management</option>
-                                                        <!-- <option value="IT Asset Management">IT Asset Management</option> -->
+                                                        <!-- <option value="Asset Management" selected>Asset Management</option> -->
+                                                        <option value="IT Asset Management" selected>IT Asset Management</option>
                                                         <!-- <option value="ATK Management">ATK Management</option> -->
                                                     </select>
                                                     <!-- <button type="button" class="btn btn-danger remove-access mt-3">X</button> -->

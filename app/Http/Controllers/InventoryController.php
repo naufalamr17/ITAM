@@ -467,7 +467,7 @@ class InventoryController extends Controller
             $fileName = time() . '_' . $request->file('disposal_document')->getClientOriginalName();
             $filePath = $request->file('disposal_document')->storeAs('uploads', $fileName, 'public');
         }
-        $inventory->status = 'Waiting Dispose';
+        $inventory->status = 'Dispose';
         $inventory->disposal_date = $request->disposal_date;
         $inventory->save();
 
@@ -475,7 +475,8 @@ class InventoryController extends Controller
             'inv_id' => $inventory->id,
             'tanggal_penghapusan' => $request->disposal_date,
             'note' => $request->remarks_repair,
-            'disposal_document' => $filePath
+            'disposal_document' => $filePath,
+            'approval' => 'Done',
         ]);
 
         return redirect()->route('dispose_inventory')->with('success', 'Successfully.');
