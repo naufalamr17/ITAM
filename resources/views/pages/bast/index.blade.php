@@ -63,12 +63,11 @@
             overflow: auto;
             background-color: rgb(0, 0, 0);
             background-color: rgba(0, 0, 0, 0.4);
-            padding-top: 60px;
         }
 
         .modal-content {
             background-color: #fefefe;
-            margin: 5% auto;
+            margin: 3% auto;
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
@@ -89,7 +88,7 @@
         }
 
         /* Media query for landscape orientation on mobile devices */
-        @media only screen and (max-width: 600px){
+        @media only screen and (max-width: 600px) {
             .modal-content {
                 width: 90%;
                 max-width: none;
@@ -130,11 +129,74 @@
                             </div>
                             @if (Auth::check() && Auth::user()->status != 'Viewers')
                             <div class="ms-auto mb-2">
-                                <a class="btn bg-gradient-dark mb-0" href="{{ route('input_repair') }}">
+                                <a class="btn bg-gradient-dark mb-0" id="openModalButton" data-bs-toggle="modal" data-bs-target="#bastModal">
                                     <i class="material-icons text-sm">add</i>&nbsp;&nbsp;Generate BAST
                                 </a>
                             </div>
                             @endif
+                        </div>
+
+                        <!-- The Modal -->
+                        <div id="myModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <form action="" method="POST">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <!-- First Column -->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="date" class="form-label">Date</label>
+                                                    <input type="date" class="form-control border" id="date" name="date" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="pic" class="form-label">PIC</label>
+                                                    <input type="text" class="form-control border" id="pic" name="pic" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="nik_user" class="form-label">NIK User</label>
+                                                    <input type="text" class="form-control border" id="nik_user" name="nik_user" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="nama_user" class="form-label">Nama User</label>
+                                                    <input type="text" class="form-control border" id="nama_user" name="nama_user" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="jabatan_user" class="form-label">Jabatan User</label>
+                                                    <input type="text" class="form-control border" id="jabatan_user" name="jabatan_user" required>
+                                                </div>
+                                            </div>
+                                            <!-- Second Column -->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="jenis_barang" class="form-label">Jenis Barang</label>
+                                                    <input type="text" class="form-control border" id="jenis_barang" name="jenis_barang" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="merk" class="form-label">Merk</label>
+                                                    <input type="text" class="form-control border" id="merk" name="merk" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="type_model" class="form-label">Type/Model</label>
+                                                    <input type="text" class="form-control border" id="type_model" name="type_model" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="serial_number" class="form-label">Serial Number</label>
+                                                    <input type="text" class="form-control border" id="serial_number" name="serial_number" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="spesifikasi" class="form-label">Spesifikasi</label>
+                                                    <textarea class="form-control border" id="spesifikasi" name="spesifikasi"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
 
                         <div class="card-body px-2 pb-2">
@@ -202,5 +264,24 @@
                 }
             });
         });
+    </script>
+
+    <script>
+        document.getElementById('openModalButton').addEventListener('click', function() {
+            var modal = document.getElementById('myModal');
+            modal.style.display = "block";
+        });
+
+        document.getElementsByClassName('close')[0].addEventListener('click', function() {
+            var modal = document.getElementById('myModal');
+            modal.style.display = "none";
+        });
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('myModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
     </script>
 </x-layout>
