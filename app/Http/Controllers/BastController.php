@@ -6,6 +6,7 @@ use App\Models\Bast;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpWord\TemplateProcessor;
 use Yajra\DataTables\Facades\DataTables;
 
 class BastController extends Controller
@@ -37,7 +38,18 @@ class BastController extends Controller
 
             return DataTables::of($basts)
                 ->addColumn('action', function ($bast) {
-                    return '<a href="' . route('bast', $bast->id) . '" class="btn btn-sm btn-primary">Edit</a>';
+                    $editUrl = route('bast.edit', $bast->id);
+                    $deleteUrl = route('bast.destroy', $bast->id);
+                    $printUrl = route('bast.print', $bast->id);
+                    return '
+                    <a href="' . $editUrl . '" class="btn btn-sm btn-secondary mt-3">Edit</a>
+                    <form action="' . $deleteUrl . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . '
+                        ' . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-sm btn-danger mt-3">Delete</button>
+                    </form>
+                    <a href="' . $printUrl . '" class="btn btn-sm btn-info mt-3">Print</a>
+                ';
                 })
                 ->make(true);
         }
@@ -114,5 +126,99 @@ class BastController extends Controller
         Bast::create(array_merge($request->all(), ['no' => $no]));
 
         return redirect()->back()->with('success', 'BAST data saved successfully!');
+    }
+
+    public function edit($id)
+    {
+        $bast = Bast::findOrFail($id);
+        $employees = DB::connection('approval')->select('SELECT * FROM employees');
+        // dd($employees);
+        return view('pages.bast.edit', compact('bast', 'employees'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'date' => 'required|date',
+            'pic' => 'required|string|max:255',
+            'nik_user' => 'required|string|max:255',
+            'jenis_barang' => 'required|string|max:255',
+            'merk' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+            'serial_number' => 'required|string|max:255',
+            'spesifikasi' => 'nullable|string',
+        ]);
+
+        $bast = Bast::findOrFail($id);
+        $bast->update($request->all());
+
+        return redirect()->route('bast')->with('success', 'BAST updated successfully!');
+    }
+
+    public function destroy($id)
+    {
+        $bast = Bast::findOrFail($id);
+        $bast->delete();
+
+        return redirect()->route('bast')->with('success', 'BAST deleted successfully!');
+    }
+
+    public function print($id)
+    {
+        // Retrieve leave request data based on $id
+        $bast = Bast::find($id);
+
+        if (!$bast) {
+            return redirect()->back()->with('error', 'BAST not found.');
+        }
+
+        // Retrieve employee data based on pic
+        $employee1 = DB::connection('approval')->table('employees')
+            ->where('nama', $bast->pic)
+            ->first();
+
+        // Retrieve second employee data based on nik_user
+        $employee2 = DB::connection('approval')->table('employees')
+            ->where('nik', $bast->nik_user)
+            ->first();
+
+        // Check if employee records are found
+        $nama1 = $employee1 ? $employee1->nama : 'N/A'; // Use default value if not found
+        $jabatan1 = $employee1 ? $employee1->job_position : 'N/A'; // Use default value if not found
+
+        $nama2 = $employee2 ? $employee2->nama : 'N/A'; // Use default value if not found
+        $jabatan2 = $employee2 ? $employee2->job_position : 'N/A'; // Use default value if not found
+
+        // Load your template Word document
+        $templatePath = public_path('BAST.docx');
+        $templateProcessor = new TemplateProcessor($templatePath);
+
+        // Format the date
+        Carbon::setLocale('id');
+        $formattedDate = Carbon::parse($bast->date)->translatedFormat('l, d F Y'); // Format date in Indonesian
+
+        // Replace placeholders in the template with actual data
+        $templateProcessor->setValue('No', $bast->no);
+        $templateProcessor->setValue('date', $formattedDate);
+        $templateProcessor->setValue('nama1', $nama1);
+        $templateProcessor->setValue('nik1', $bast->nik_user); // Example of setting different values
+        $templateProcessor->setValue('jabatan1', $jabatan1);
+        $templateProcessor->setValue('nama2', $nama2);
+        $templateProcessor->setValue('nik2', $bast->nik_user); // Set nik2 to nik_user if needed
+        $templateProcessor->setValue('jabatan2', $jabatan2);
+        $templateProcessor->setValue('barang', $bast->jenis_barang);
+        $templateProcessor->setValue('merk', $bast->merk);
+        $templateProcessor->setValue('tipe', $bast->type);
+        $templateProcessor->setValue('serial', $bast->serial_number);
+        $templateProcessor->setValue('warna', $bast->color);
+        $templateProcessor->setValue('spec', $bast->spesifikasi);
+
+        // Save the processed document
+        $outputFileName = 'BAST_' . $bast->nik_user . '.docx';
+        $outputFilePath = storage_path('app/public/' . $outputFileName);
+        $templateProcessor->saveAs($outputFilePath);
+
+        // Return a response with the generated Word document for download
+        return response()->download($outputFilePath, $outputFileName)->deleteFileAfterSend(true);
     }
 }

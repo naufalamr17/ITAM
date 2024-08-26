@@ -57,6 +57,10 @@ Route::put('/users/{id}', [AccessController::class, 'update'])->name('update_use
 
 Route::get('/bast', [BastController::class, 'index'])->name('bast')->middleware('auth');
 Route::post('/bast/store', [BastController::class, 'store'])->name('bast.store')->middleware('auth');
+Route::get('/bast/edit/{id}', [BastController::class, 'edit'])->name('bast.edit')->middleware('auth');
+Route::put('/bast/update/{id}', [BastController::class, 'update'])->name('bast.update')->middleware('auth');
+Route::delete('/bast/destroy/{id}', [BastController::class, 'destroy'])->name('bast.destroy')->middleware('auth');
+Route::get('bast/{id}/print', [BastController::class, 'print'])->name('bast.print');
 
 Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory')->middleware('auth');
 Route::get('/add_inventory', [InventoryController::class, 'addinventory'])->name('add_inventory')->middleware('auth');
