@@ -14,28 +14,36 @@ class BastController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            // Query to get BAST data
             $query = "
-            SELECT 
-                basts.id,
-                basts.no,
-                basts.date,
-                basts.pic,
-                basts.nik_user,
-                employees.nama AS nama,
-                employees.job_position AS job_position,
-                basts.jenis_barang,
-                basts.merk,
-                basts.type,
-                basts.serial_number,
-                basts.scan,
-                basts.spesifikasi
-            FROM itam.basts AS basts
-            JOIN approval.employees AS employees 
-                ON basts.nik_user = employees.nik
+        SELECT 
+            basts.id,
+            basts.no,
+            basts.date,
+            basts.pic,
+            basts.nik_user,
+            basts.jenis_barang,
+            basts.merk,
+            basts.type,
+            basts.serial_number,
+            basts.scan,
+            basts.spesifikasi
+        FROM itam.basts AS basts
         ";
 
-            // Execute the raw SQL query
+            // Execute the raw SQL query to get BAST data
             $basts = DB::select($query);
+
+            // Fetch employees data for each BAST
+            foreach ($basts as $bast) {
+                $employee = DB::connection('approval')->table('employees')
+                    ->select('nama', 'job_position')
+                    ->where('nik', $bast->nik_user)
+                    ->first();
+
+                $bast->nama = $employee ? $employee->nama : '-';
+                $bast->job_position = $employee ? $employee->job_position : '-';
+            }
 
             return DataTables::of($basts)
                 ->addColumn('action', function ($bast) {
@@ -43,21 +51,21 @@ class BastController extends Controller
                     $deleteUrl = route('bast.destroy', $bast->id);
                     $printUrl = route('bast.print', $bast->id);
                     return '
-                    <a href="' . $editUrl . '" class="btn btn-sm btn-secondary mt-3">Edit</a>
-                    <form action="' . $deleteUrl . '" method="POST" style="display:inline;">
-                        ' . csrf_field() . '
-                        ' . method_field('DELETE') . '
-                        <button type="submit" class="btn btn-sm btn-danger mt-3">Delete</button>
-                    </form>
-                    <a href="' . $printUrl . '" class="btn btn-sm btn-info mt-3">Print</a>
-                ';
+                <a href="' . $editUrl . '" class="btn btn-sm btn-secondary mt-3">Edit</a>
+                <form action="' . $deleteUrl . '" method="POST" style="display:inline;">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="submit" class="btn btn-sm btn-danger mt-3">Delete</button>
+                </form>
+                <a href="' . $printUrl . '" class="btn btn-sm btn-info mt-3">Print</a>
+            ';
                 })
                 ->make(true);
         }
 
+        // Fetch employees for the view
         $employees = DB::connection('approval')->select('SELECT * FROM employees');
-        // dd($employees);
-        return view('pages.bast.index', compact('employees')); // You'll need to create this view
+        return view('pages.bast.index', compact('employees'));
     }
 
     public function store(Request $request)
