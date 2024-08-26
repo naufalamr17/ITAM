@@ -140,7 +140,7 @@
                         <div id="myModal" class="modal">
                             <div class="modal-content">
                                 <span class="close">&times;</span>
-                                <form action="" method="POST">
+                                <form action="{{ route('bast.store') }}" method="POST">
                                     @csrf
                                     <div class="modal-body">
                                         <div class="row">
@@ -148,46 +148,47 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="date" class="form-label">Date</label>
-                                                    <input type="date" class="form-control border" id="date" name="date" required>
+                                                    <input type="date" class="form-control border p-2" id="date" name="date" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="pic" class="form-label">PIC</label>
-                                                    <input type="text" class="form-control border" id="pic" name="pic" required>
+                                                    <input type="text" class="form-control border p-2" id="pic" name="pic" value="{{ Auth::user()->name }}" required readonly>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="nik_user" class="form-label">NIK User</label>
-                                                    <input type="text" class="form-control border" id="nik_user" name="nik_user" required>
+                                                    <select class="form-control" id="nik_user" name="nik_user" required>
+                                                        <option value="">Select NIK User</option>
+                                                        @foreach ($employees as $employee)
+                                                        <option value="{{ $employee->nik }}">{{ $employee->nik }} - {{ $employee->nama }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="nama_user" class="form-label">Nama User</label>
-                                                    <input type="text" class="form-control border" id="nama_user" name="nama_user" required>
+                                                    <label for="jenis_barang" class="form-label">Jenis Barang</label>
+                                                    <input type="text" class="form-control border p-2" id="jenis_barang" name="jenis_barang" value="Laptop" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="jabatan_user" class="form-label">Jabatan User</label>
-                                                    <input type="text" class="form-control border" id="jabatan_user" name="jabatan_user" required>
+                                                    <label for="merk" class="form-label">Merk</label>
+                                                    <input type="text" class="form-control border p-2" id="merk" name="merk" required>
                                                 </div>
                                             </div>
                                             <!-- Second Column -->
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label for="jenis_barang" class="form-label">Jenis Barang</label>
-                                                    <input type="text" class="form-control border" id="jenis_barang" name="jenis_barang" required>
+                                                    <label for="type_model" class="form-label">Color</label>
+                                                    <input type="text" class="form-control border p-2" id="color" name="color" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="merk" class="form-label">Merk</label>
-                                                    <input type="text" class="form-control border" id="merk" name="merk" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="type_model" class="form-label">Type/Model</label>
-                                                    <input type="text" class="form-control border" id="type_model" name="type_model" required>
+                                                    <label for="type_model" class="form-label">Type</label>
+                                                    <input type="text" class="form-control border p-2" id="type" name="type" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="serial_number" class="form-label">Serial Number</label>
-                                                    <input type="text" class="form-control border" id="serial_number" name="serial_number" required>
+                                                    <input type="text" class="form-control border p-2" id="serial_number" name="serial_number" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="spesifikasi" class="form-label">Spesifikasi</label>
-                                                    <textarea class="form-control border" id="spesifikasi" name="spesifikasi"></textarea>
+                                                    <textarea class="form-control border p-2" id="spesifikasi" name="spesifikasi"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -196,26 +197,27 @@
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
 
                         <div class="card-body px-2 pb-2">
                             <div class="table-responsive p-0">
-                                <table id="inventoryTable" class="table align-items-center mb-0">
+                                <table id="inventoryTable" class="table text-center align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('No') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Date') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('PIC') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('NIK User') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Nama User') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Jabatan User') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Jenis Barang') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Merk') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Type') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial Number') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Spesifikasi') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Action') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('No') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Date') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('PIC') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('NIK User') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Nama User') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Jabatan User') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Jenis Barang') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Merk') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Type') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial Number') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Spesifikasi') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -233,14 +235,80 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Include DataTables JS -->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <!-- Initialize DataTable -->
+    <!-- Include Selectize.js CSS and JS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#nik_user').selectize({
+                create: false,
+                sortField: 'text'
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             var table = $('#inventoryTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('bast') }}",
+                columns: [{
+                        data: 'no',
+                        name: 'no'
+                    },
+                    {
+                        data: 'date',
+                        name: 'date'
+                    },
+                    {
+                        data: 'pic',
+                        name: 'pic'
+                    },
+                    {
+                        data: 'nik_user',
+                        name: 'nik_user'
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'job_position',
+                        name: 'job_position'
+                    },
+                    {
+                        data: 'jenis_barang',
+                        name: 'jenis_barang'
+                    },
+                    {
+                        data: 'merk',
+                        name: 'merk'
+                    },
+                    {
+                        data: 'type',
+                        name: 'type'
+                    },
+                    {
+                        data: 'serial_number',
+                        name: 'serial_number'
+                    },
+                    {
+                        data: 'spesifikasi',
+                        name: 'spesifikasi'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
                 "pageLength": 50,
                 "columnDefs": [{
                         "orderable": true,
-                        "targets": 6
+                        "targets": 1
                     }, // Enable ordering on the 8th column (index 7)
                     {
                         "orderable": false,
@@ -248,7 +316,7 @@
                     } // Disable ordering on all other columns
                 ],
                 "order": [
-                    [5, 'desc']
+                    [1, 'desc']
                 ],
                 "dom": '<"top">rt<"bottom"ip><"clear">',
             });

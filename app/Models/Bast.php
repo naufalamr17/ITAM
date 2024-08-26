@@ -10,6 +10,7 @@ class Bast extends Model
     use HasFactory;
 
     protected $fillable = [
+        'no',
         'date',
         'pic',
         'nik_user',

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('basts', function (Blueprint $table) {
             $table->id();
+            $table->string('no');
             $table->date('date');
             $table->string('pic');
             $table->string('nik_user');

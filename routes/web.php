@@ -56,6 +56,7 @@ Route::get('/users/{id}/edit', [AccessController::class, 'edit'])->name('edit_us
 Route::put('/users/{id}', [AccessController::class, 'update'])->name('update_user')->middleware('auth');
 
 Route::get('/bast', [BastController::class, 'index'])->name('bast')->middleware('auth');
+Route::post('/bast/store', [BastController::class, 'store'])->name('bast.store')->middleware('auth');
 
 Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory')->middleware('auth');
 Route::get('/add_inventory', [InventoryController::class, 'addinventory'])->name('add_inventory')->middleware('auth');
