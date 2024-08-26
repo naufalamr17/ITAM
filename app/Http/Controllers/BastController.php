@@ -14,25 +14,7 @@ class BastController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            // Query to get BAST data
-            $query = "
-        SELECT 
-            basts.id,
-            basts.no,
-            basts.date,
-            basts.pic,
-            basts.nik_user,
-            basts.jenis_barang,
-            basts.merk,
-            basts.type,
-            basts.serial_number,
-            basts.scan,
-            basts.spesifikasi
-        FROM itam.basts AS basts
-        ";
-
-            // Execute the raw SQL query to get BAST data
-            $basts = DB::select($query);
+            $basts = Bast::get();
 
             // Fetch employees data for each BAST
             foreach ($basts as $bast) {
