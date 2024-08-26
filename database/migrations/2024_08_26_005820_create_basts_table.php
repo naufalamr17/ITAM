@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('serial_number');
             $table->string('color');
             $table->text('spesifikasi')->nullable(); // Spesifikasi could be a longer text, hence text type
+            $table->string('scan')->nullable();
             $table->timestamps();
         });
     }

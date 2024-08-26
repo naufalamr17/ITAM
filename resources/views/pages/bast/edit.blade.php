@@ -126,7 +126,7 @@
                         <div class="container">
 
                             <!-- Edit Form -->
-                            <form action="{{ route('bast.update', $bast->id) }}" method="POST">
+                            <form action="{{ route('bast.update', $bast->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
@@ -174,6 +174,10 @@
                                         <div class="mb-3">
                                             <label for="spesifikasi" class="form-label">Spesifikasi</label>
                                             <textarea class="form-control border p-2" id="spesifikasi" name="spesifikasi">{{ $bast->spesifikasi }}</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="scan_file" class="form-label">Scan File</label>
+                                            <input type="file" class="form-control border p-2" id="scan_file" name="scan_file">
                                         </div>
                                     </div>
                                 </div>

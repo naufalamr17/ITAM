@@ -217,6 +217,7 @@
                                             <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Type') }}</th>
                                             <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial Number') }}</th>
                                             <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Spesifikasi') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('File') }}</th>
                                             <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -298,6 +299,20 @@
                         data: 'spesifikasi',
                         name: 'spesifikasi'
                     },
+                    {
+                        data: 'scan',
+                        name: 'scan',
+                        render: function(data, type, row) {
+                            if (data) {
+                                // Assuming 'data' contains the file name or relative path under 'storage/app/public/scans/'
+                                let filePath = `/storage/${data}`; // Construct the URL path
+                                return `<a href="${filePath}" target="_blank">View File</a>`;
+                            } else {
+                                // If no scan file, return a dash
+                                return '-';
+                            }
+                        }
+                    }, 
                     {
                         data: 'action',
                         name: 'action',

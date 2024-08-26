@@ -27,6 +27,7 @@ class BastController extends Controller
                 basts.merk,
                 basts.type,
                 basts.serial_number,
+                basts.scan,
                 basts.spesifikasi
             FROM itam.basts AS basts
             JOIN approval.employees AS employees 
@@ -138,6 +139,12 @@ class BastController extends Controller
 
     public function update(Request $request, $id)
     {
+        $bast = Bast::find($id);
+
+        if (!$bast) {
+            return redirect()->back()->with('error', 'BAST not found.');
+        }
+
         $request->validate([
             'date' => 'required|date',
             'pic' => 'required|string|max:255',
@@ -147,12 +154,30 @@ class BastController extends Controller
             'type' => 'required|string|max:255',
             'serial_number' => 'required|string|max:255',
             'spesifikasi' => 'nullable|string',
+            'scan_file' => 'nullable|file|mimes:pdf,jpg,png,jpeg|max:2048', // Adjust validation as needed
         ]);
 
-        $bast = Bast::findOrFail($id);
-        $bast->update($request->all());
+        // Update BAST data
+        $bast->update([
+            'date' => $request->input('date'),
+            'pic' => $request->input('pic'),
+            'nik_user' => $request->input('nik_user'),
+            'jenis_barang' => $request->input('jenis_barang'),
+            'merk' => $request->input('merk'),
+            'type' => $request->input('type'),
+            'serial_number' => $request->input('serial_number'),
+            'spesifikasi' => $request->input('spesifikasi'),
+        ]);
 
-        return redirect()->route('bast')->with('success', 'BAST updated successfully!');
+        // Handle file upload
+        if ($request->hasFile('scan_file')) {
+            $file = $request->file('scan_file');
+            $filePath = $file->store('scans', 'public'); // Save file to 'public/scans' directory
+            $bast->scan = $filePath;
+            $bast->save();
+        }
+
+        return redirect()->route('bast')->with('success', 'BAST updated successfully.');
     }
 
     public function destroy($id)
