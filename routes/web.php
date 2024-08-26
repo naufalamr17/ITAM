@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccessController;
+use App\Http\Controllers\BastController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,6 +54,8 @@ Route::post('/store_user', [AccessController::class, 'create'])->name('store_use
 Route::delete('/destroy_user/{id}', [AccessController::class, 'destroy'])->name('destroy_user')->middleware('auth');
 Route::get('/users/{id}/edit', [AccessController::class, 'edit'])->name('edit_user')->middleware('auth');
 Route::put('/users/{id}', [AccessController::class, 'update'])->name('update_user')->middleware('auth');
+
+Route::get('/bast', [BastController::class, 'index'])->name('bast')->middleware('auth');
 
 Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory')->middleware('auth');
 Route::get('/add_inventory', [InventoryController::class, 'addinventory'])->name('add_inventory')->middleware('auth');

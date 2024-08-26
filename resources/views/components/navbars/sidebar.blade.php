@@ -62,6 +62,14 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ $activePage == 'bast' ? 'active bg-gradient-dark' : '' }}" href="{{ route('bast') }}" style="color: {{ $activePage == 'bast' ? 'white' : 'black' }};">
+                    <div class="text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-file-alt" style="color: {{ $activePage == 'bast' ? 'white' : 'black' }};"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Generate BAST</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ $activePage == 'report' ? ' active bg-gradient-dark' : '' }}" href="{{ route('report') }}" style="color: {{ $activePage == 'report' ? 'white' : 'black' }};">
                     <div class="text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-chart-line" style="color: {{ $activePage == 'report' ? 'white' : 'black' }};"></i>
