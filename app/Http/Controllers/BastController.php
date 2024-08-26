@@ -198,7 +198,7 @@ class BastController extends Controller
             ->first();
 
         // Check if employee records are found
-        $nama1 = $employee1 ? $employee1->nama : 'N/A'; // Use default value if not found
+        $nik1 = $employee1 ? $employee1->nik : 'N/A'; // Use default value if not found
         $jabatan1 = $employee1 ? $employee1->job_position : 'N/A'; // Use default value if not found
 
         $nama2 = $employee2 ? $employee2->nama : 'N/A'; // Use default value if not found
@@ -215,8 +215,8 @@ class BastController extends Controller
         // Replace placeholders in the template with actual data
         $templateProcessor->setValue('No', $bast->no);
         $templateProcessor->setValue('date', $formattedDate);
-        $templateProcessor->setValue('nama1', $nama1);
-        $templateProcessor->setValue('nik1', $bast->nik_user); // Example of setting different values
+        $templateProcessor->setValue('nama1', $bast->pic);
+        $templateProcessor->setValue('nik1', $nik1); // Example of setting different values
         $templateProcessor->setValue('jabatan1', $jabatan1);
         $templateProcessor->setValue('nama2', $nama2);
         $templateProcessor->setValue('nik2', $bast->nik_user); // Set nik2 to nik_user if needed
