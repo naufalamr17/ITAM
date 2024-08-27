@@ -20,11 +20,13 @@ Route::get('/', function () {
 });
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Models\dispose;
+use App\Models\employee;
 use App\Models\inventory;
 use Illuminate\Http\Request;
 
@@ -61,6 +63,12 @@ Route::get('/bast/edit/{id}', [BastController::class, 'edit'])->name('bast.edit'
 Route::put('/bast/update/{id}', [BastController::class, 'update'])->name('bast.update')->middleware('auth');
 Route::delete('/bast/destroy/{id}', [BastController::class, 'destroy'])->name('bast.destroy')->middleware('auth');
 Route::get('bast/{id}/print', [BastController::class, 'print'])->name('bast.print');
+
+Route::get('/employee', [EmployeeController::class, 'index'])->name('employee')->middleware('auth');
+Route::post('/employee/store', [EmployeeController::class, 'store'])->name('employee.store')->middleware('auth');
+Route::get('/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit')->middleware('auth');
+Route::put('/employee/update/{id}', [EmployeeController::class, 'update'])->name('employee.update')->middleware('auth');
+Route::delete('/employee/destroy/{id}', [EmployeeController::class, 'destroy'])->name('employee.destroy')->middleware('auth');
 
 Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory')->middleware('auth');
 Route::get('/add_inventory', [InventoryController::class, 'addinventory'])->name('add_inventory')->middleware('auth');
