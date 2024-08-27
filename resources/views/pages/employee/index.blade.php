@@ -127,7 +127,7 @@
                             <div class="mb-2 me-2">
                                 <input type="text" class="form-control border p-2" name="searchbox" id="searchbox" placeholder="Search..." style="max-width: 300px;" autofocus>
                             </div>
-                            @if (Auth::check() && Auth::user()->status != 'Viewers')
+                            @if (Auth::check() && Auth::user()->location == 'Head Office')
                             <div class="ms-auto mb-2">
                                 <a class="btn bg-gradient-dark mb-0" id="openModalButton" data-bs-toggle="modal" data-bs-target="#bastModal">
                                     <i class="material-icons text-sm">add</i>&nbsp;&nbsp;Add Employee

@@ -85,7 +85,7 @@
                     <span class="nav-link-text ms-1">Employee</span>
                 </a>
             </li>
-            @if (Auth::check() && Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin')
+            @if (Auth::check() && Auth::user()->status == 'Administrator')
             <li class="nav-item">
                 <a class="nav-link {{ $activePage == 'user-management' ? 'active bg-gradient-dark' : '' }}" href="{{ route('user-management') }}" style="color: {{ $activePage == 'user-management' ? 'white' : 'black' }};">
                     <div class="text-center me-2 d-flex align-items-center justify-content-center">
