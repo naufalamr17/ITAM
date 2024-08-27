@@ -52,6 +52,7 @@ class BastController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
         // Validate the incoming request data
         $request->validate([
             'date' => 'required|date',
@@ -63,6 +64,7 @@ class BastController extends Controller
             'type' => 'required|string|max:255',
             'serial_number' => 'required|string|max:255',
             'spesifikasi' => 'nullable|string',
+            'kelengkapan' => 'nullable|string',
         ]);
 
         // Get the PIC from the approval database
@@ -144,6 +146,8 @@ class BastController extends Controller
             'type' => 'required|string|max:255',
             'serial_number' => 'required|string|max:255',
             'spesifikasi' => 'nullable|string',
+            'color' => 'nullable|string',
+            'kelengkapan' => 'nullable|string',
             'scan_file' => 'nullable|file|mimes:pdf,jpg,png,jpeg|max:2048', // Adjust validation as needed
         ]);
 
@@ -157,6 +161,8 @@ class BastController extends Controller
             'type' => $request->input('type'),
             'serial_number' => $request->input('serial_number'),
             'spesifikasi' => $request->input('spesifikasi'),
+            'color' => $request->input('color'),
+            'kelengkapan' => $request->input('kelengkapan'),
         ]);
 
         // Handle file upload
@@ -227,6 +233,7 @@ class BastController extends Controller
         $templateProcessor->setValue('serial', $bast->serial_number);
         $templateProcessor->setValue('warna', $bast->color);
         $templateProcessor->setValue('spec', $bast->spesifikasi);
+        $templateProcessor->setValue('kelengkapan', $bast->kelengkapan);
 
         // Save the processed document
         $outputFileName = 'BAST_' . $bast->nik_user . '.docx';

@@ -171,13 +171,13 @@
                                                     <label for="merk" class="form-label">Merk</label>
                                                     <input type="text" class="form-control border p-2" id="merk" name="merk" required>
                                                 </div>
-                                            </div>
-                                            <!-- Second Column -->
-                                            <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="type_model" class="form-label">Color</label>
                                                     <input type="text" class="form-control border p-2" id="color" name="color" required>
                                                 </div>
+                                            </div>
+                                            <!-- Second Column -->
+                                            <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="type_model" class="form-label">Type</label>
                                                     <input type="text" class="form-control border p-2" id="type" name="type" required>
@@ -189,6 +189,10 @@
                                                 <div class="mb-3">
                                                     <label for="spesifikasi" class="form-label">Spesifikasi</label>
                                                     <textarea class="form-control border p-2" id="spesifikasi" name="spesifikasi"></textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="kelengkapan" class="form-label">Kelengkapan</label>
+                                                    <input type="text" class="form-control border p-2" id="kelengkapan" name="kelengkapan" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -217,6 +221,7 @@
                                             <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Type') }}</th>
                                             <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial Number') }}</th>
                                             <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Spesifikasi') }}</th>
+                                            <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kelengkapan') }}</th>
                                             <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('File') }}</th>
                                             <th class="text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Action') }}</th>
                                         </tr>
@@ -300,6 +305,13 @@
                         name: 'spesifikasi'
                     },
                     {
+                        data: 'kelengkapan',
+                        name: 'kelengkapan',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
+                    },
+                    {
                         data: 'scan',
                         name: 'scan',
                         render: function(data, type, row) {
@@ -312,7 +324,7 @@
                                 return '-';
                             }
                         }
-                    }, 
+                    },
                     {
                         data: 'action',
                         name: 'action',

@@ -20,6 +20,7 @@ class Bast extends Model
         'serial_number',
         'color',
         'scan',
-        'spesifikasi'
+        'spesifikasi',
+        'kelengkapan'
     ];
 }

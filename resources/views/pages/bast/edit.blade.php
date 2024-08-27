@@ -160,11 +160,15 @@
                                             <label for="merk" class="form-label">Merk</label>
                                             <input type="text" class="form-control border p-2" id="merk" name="merk" value="{{ $bast->merk }}" required>
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="color" class="form-label">Color</label>
+                                            <input type="text" class="form-control border p-2" id="color" name="color" value="{{ $bast->color }}" required>
+                                        </div>
                                     </div>
                                     <!-- Second Column -->
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="type" class="form-label">Type/Model</label>
+                                            <label for="type" class="form-label">Type</label>
                                             <input type="text" class="form-control border p-2" id="type" name="type" value="{{ $bast->type }}" required>
                                         </div>
                                         <div class="mb-3">
@@ -174,6 +178,10 @@
                                         <div class="mb-3">
                                             <label for="spesifikasi" class="form-label">Spesifikasi</label>
                                             <textarea class="form-control border p-2" id="spesifikasi" name="spesifikasi">{{ $bast->spesifikasi }}</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="kelengkapan" class="form-label">Kelengkapan</label>
+                                            <input type="text" class="form-control border p-2" id="kelengkapan" name="kelengkapan" value="{{ $bast->kelengkapan }}" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="scan_file" class="form-label">Scan File</label>
