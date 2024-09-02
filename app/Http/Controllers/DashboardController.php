@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\inventory;
+use App\Models\network;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -171,6 +172,8 @@ class DashboardController extends Controller
                 ->get();
         }
 
+        $networks = Network::orderBy('start_time', 'desc')->take(5)->get();
+
         // dd($monthlyGrowthFormatted);
 
         return view('dashboard.index', [
@@ -179,7 +182,8 @@ class DashboardController extends Controller
             'yearlyGrowth' => $yearlyGrowthFormatted,
             'monthlyGrowth' => $monthlyGrowthFormatted,
             'inventory' => $inventory,
-            'repair' => $repair
+            'repair' => $repair,
+            'network' => $networks
         ]);
     }
 }
