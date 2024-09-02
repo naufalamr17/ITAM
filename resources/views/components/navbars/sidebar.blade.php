@@ -85,6 +85,15 @@
                     <span class="nav-link-text ms-1">Employee</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ $activePage == 'monitoring_network' ? ' active bg-gradient-dark' : '' }}" href="{{ route('monitoring_network') }}" style="color: {{ $activePage == 'monitoring_network' ? 'white' : 'black' }};">
+                    <div class="text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Mengganti ikon dengan ikon jaringan -->
+                        <i class="fas fa-network-wired" style="color: {{ $activePage == 'monitoring_network' ? 'white' : 'black' }};"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Monitoring Network</span>
+                </a>
+            </li>
             @if (Auth::check() && Auth::user()->status == 'Administrator')
             <li class="nav-item">
                 <a class="nav-link {{ $activePage == 'user-management' ? 'active bg-gradient-dark' : '' }}" href="{{ route('user-management') }}" style="color: {{ $activePage == 'user-management' ? 'white' : 'black' }};">

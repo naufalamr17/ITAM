@@ -22,6 +22,7 @@ Route::get('/', function () {
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\NetworkController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
@@ -89,6 +90,8 @@ Route::get('/inputexcel', [InventoryController::class, 'inputexcel'])->name('inp
 Route::post('/store_excel', [InventoryController::class, 'storeexcel'])->name('store_excel')->middleware('auth');
 
 Route::get('/report', [InventoryController::class, 'report'])->name('report')->middleware('auth');
+
+Route::get('/monitoring_network', [NetworkController::class, 'index'])->name('monitoring_network')->middleware('auth');
 
 Route::post('/approval', function (Request $request) {
 	// Access form data using $request object
