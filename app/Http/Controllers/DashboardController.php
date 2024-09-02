@@ -185,7 +185,7 @@ class DashboardController extends Controller
         $totalMinutesInMonth = Carbon::parse($selectedMonth)->daysInMonth * 24 * 60;
 
         // Calculate downtime and normal operation minutes for Telkom
-        $telkomDowntimeMinutes = $telkomDowntime->sum('downtime');
+        $telkomDowntimeMinutes = $telkomDowntime;
         $telkomNormalOperationMinutes = $totalMinutesInMonth - $telkomDowntimeMinutes;
 
         // Prepare Telkom chart data
@@ -195,7 +195,7 @@ class DashboardController extends Controller
         ];
 
         // Calculate downtime and normal operation minutes for BOMM
-        $bommDowntimeMinutes = $bommDowntime->sum('downtime');
+        $bommDowntimeMinutes = $bommDowntime;
         $bommNormalOperationMinutes = $totalMinutesInMonth - $bommDowntimeMinutes;
 
         // Prepare BOMM chart data
@@ -220,81 +220,41 @@ class DashboardController extends Controller
 
     public function calculateTelkomDowntime()
     {
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
         // Fetch records for Telkom from the last year
         $telkomNetworks = Network::where('provider', 'Telkom')
-            ->where('start_time', '>=', Carbon::now()->subYear())
-            ->get();
+            ->whereMonth('start_time', $currentMonth)
+            ->whereYear('start_time', $currentYear)
+            ->get()
+            ->map(function ($item) {
+                if ($item->end_time) {
+                    return Carbon::parse($item->end_time)->diffInMinutes(Carbon::parse($item->start_time));
+                }
+                return 0;
+            })
+            ->sum();
 
-        // Initialize an array to store downtime per month
-        $monthlyDowntime = [];
-
-        foreach ($telkomNetworks as $network) {
-            // Calculate downtime in minutes for each record
-            $startTime = Carbon::parse($network->start_time);
-            $endTime = Carbon::parse($network->end_time);
-            $downtimeMinutes = $endTime->diffInMinutes($startTime);
-
-            // Get the month and year for grouping
-            $monthYear = $startTime->format('Y-m');
-
-            // Add the downtime to the respective month
-            if (isset($monthlyDowntime[$monthYear])) {
-                $monthlyDowntime[$monthYear] += $downtimeMinutes;
-            } else {
-                $monthlyDowntime[$monthYear] = $downtimeMinutes;
-            }
-        }
-
-        // Format the monthly downtime data for the past year
-        $monthlyDowntimeFormatted = collect();
-        for ($i = 0; $i < 12; $i++) {
-            $date = Carbon::now()->subMonths($i)->format('Y-m');
-            $monthlyDowntimeFormatted->push([
-                'month' => $date,
-                'downtime' => $monthlyDowntime[$date] ?? 0 // Default to 0 if no downtime recorded
-            ]);
-        }
-
-        return $monthlyDowntimeFormatted->sortBy('month')->values();
+        return $telkomNetworks;
     }
 
     public function calculateBommDowntime()
     {
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
         // Fetch records for Telkom from the last year
         $bommNetworks = Network::where('provider', 'Bomm Akses')
-            ->where('start_time', '>=', Carbon::now()->subYear())
-            ->get();
+            ->whereMonth('start_time', $currentMonth)
+            ->whereYear('start_time', $currentYear)
+            ->get()
+            ->map(function ($item) {
+                if ($item->end_time) {
+                    return Carbon::parse($item->end_time)->diffInMinutes(Carbon::parse($item->start_time));
+                }
+                return 0;
+            })
+            ->sum();
 
-        // Initialize an array to store downtime per month
-        $monthlyDowntime = [];
-
-        foreach ($bommNetworks as $network) {
-            // Calculate downtime in minutes for each record
-            $startTime = Carbon::parse($network->start_time);
-            $endTime = Carbon::parse($network->end_time);
-            $downtimeMinutes = $endTime->diffInMinutes($startTime);
-
-            // Get the month and year for grouping
-            $monthYear = $startTime->format('Y-m');
-
-            // Add the downtime to the respective month
-            if (isset($monthlyDowntime[$monthYear])) {
-                $monthlyDowntime[$monthYear] += $downtimeMinutes;
-            } else {
-                $monthlyDowntime[$monthYear] = $downtimeMinutes;
-            }
-        }
-
-        // Format the monthly downtime data for the past year
-        $monthlyDowntimeFormatted = collect();
-        for ($i = 0; $i < 12; $i++) {
-            $date = Carbon::now()->subMonths($i)->format('Y-m');
-            $monthlyDowntimeFormatted->push([
-                'month' => $date,
-                'downtime' => $monthlyDowntime[$date] ?? 0 // Default to 0 if no downtime recorded
-            ]);
-        }
-
-        return $monthlyDowntimeFormatted->sortBy('month')->values();
+        return $bommNetworks;
     }
 }
