@@ -115,7 +115,7 @@
                                 <div class="modal-content">
                                     <span class="close">&times;</span>
                                     <h5>Add Problem</h5>
-                                    <form id="addProblemForm" action="" method="POST">
+                                    <form id="addProblemForm" action="{{ route('problems.store') }}" method="POST">
                                         @csrf
                                         <div class="mb-3">
                                             <label for="provider" class="form-label">Provider</label>
@@ -210,7 +210,7 @@
             $('#network1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "",
+                ajax: "{{ route('network1') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -262,7 +262,7 @@
             $('#network2').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "",
+                ajax: "{{ route('network2') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',

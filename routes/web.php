@@ -92,6 +92,10 @@ Route::post('/store_excel', [InventoryController::class, 'storeexcel'])->name('s
 Route::get('/report', [InventoryController::class, 'report'])->name('report')->middleware('auth');
 
 Route::get('/monitoring_network', [NetworkController::class, 'index'])->name('monitoring_network')->middleware('auth');
+Route::get('/network1', [NetworkController::class, 'network1'])->name('network1')->middleware('auth');
+Route::get('/network2', [NetworkController::class, 'network2'])->name('network2')->middleware('auth');
+Route::get('network/edit/{id}', [NetworkController::class, 'edit'])->name('network.edit')->middleware('auth');
+Route::post('/problems', [NetworkController::class, 'store'])->name('problems.store')->middleware('auth');
 
 Route::post('/approval', function (Request $request) {
 	// Access form data using $request object
