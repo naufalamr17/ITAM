@@ -29,8 +29,6 @@ class NetworkController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-
         $request->validate([
             'provider' => 'required|string',
             'issue' => 'required|string',
@@ -40,14 +38,28 @@ class NetworkController extends Controller
             'resolution' => 'nullable|string',
         ]);
 
+        // Ambil input
+        $startTime = $request->input('start_time');
+        $endTime = $request->input('end_time');
+
+        // Hitung durasi jika end_time terisi
+        $duration = null;
+        if ($endTime) {
+            $start = new \DateTime($startTime);
+            $end = new \DateTime($endTime);
+            $interval = $start->diff($end);
+            $duration = $interval->format('%h hours %i minutes'); // Format sesuai kebutuhan
+        }
+
         // Simpan data ke database
-        network::create([
+        Network::create([
             'provider' => $request->input('provider'),
             'issue' => $request->input('issue'),
             'details' => $request->input('details'),
-            'start_time' => $request->input('start_time'),
-            'end_time' => $request->input('end_time'),
+            'start_time' => $startTime,
+            'end_time' => $endTime,
             'resolution' => $request->input('resolution'),
+            'duration' => $duration, // Simpan durasi
         ]);
 
         // Redirect atau respon sesuai kebutuhan
@@ -102,7 +114,8 @@ class NetworkController extends Controller
         }
     }
 
-    public function network2(Request $request) {
+    public function network2(Request $request)
+    {
         if ($request->ajax()) {
             $network2 = Network::where('provider', 'Bomm Akses')->get();
 
