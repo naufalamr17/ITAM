@@ -30,6 +30,11 @@ class NetworkController extends Controller
             })
             ->sum();
 
+        // Convert Telkom downtime to hours and minutes
+        $telkomHours = floor($telkomDowntime / 60);
+        $telkomMinutes = $telkomDowntime % 60;
+        $telkomDowntimeFormatted = sprintf('%dh %dm', $telkomHours, $telkomMinutes);
+
         // Calculate downtime for Bomm Akses
         $bommAksesDowntime = Network::where('provider', 'Bomm Akses')
             ->whereMonth('start_time', $currentMonth)
@@ -43,9 +48,14 @@ class NetworkController extends Controller
             })
             ->sum();
 
+        // Convert Bomm Akses downtime to hours and minutes
+        $bommAksesHours = floor($bommAksesDowntime / 60);
+        $bommAksesMinutes = $bommAksesDowntime % 60;
+        $bommAksesDowntimeFormatted = sprintf('%dh %dm', $bommAksesHours, $bommAksesMinutes);
+
         return view('pages.network.index', [
-            'telkomDowntime' => $telkomDowntime,
-            'bommAksesDowntime' => $bommAksesDowntime,
+            'telkomDowntimeFormatted' => $telkomDowntimeFormatted,
+            'bommAksesDowntimeFormatted' => $bommAksesDowntimeFormatted,
         ]);
     }
 
@@ -81,7 +91,7 @@ class NetworkController extends Controller
             $start = new \DateTime($startTime);
             $end = new \DateTime($endTime);
             $interval = $start->diff($end);
-            $duration = $interval->format('%h hours %i minutes'); // Format sesuai kebutuhan
+            $duration = $interval->format('%h h %i m'); // Format sesuai kebutuhan
         }
 
         // Simpan data ke database
