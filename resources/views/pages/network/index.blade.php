@@ -221,32 +221,50 @@
                     {
                         data: 'issue',
                         name: 'issue',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'details',
                         name: 'details',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'start_time',
                         name: 'start_time',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'end_time',
                         name: 'end_time',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'duration',
                         name: 'duration',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'resolution',
                         name: 'resolution',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'action',
@@ -273,32 +291,50 @@
                     {
                         data: 'issue',
                         name: 'issue',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'details',
                         name: 'details',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'start_time',
                         name: 'start_time',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'end_time',
                         name: 'end_time',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'duration',
                         name: 'duration',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'resolution',
                         name: 'resolution',
-                        class: 'text-center'
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'action',
