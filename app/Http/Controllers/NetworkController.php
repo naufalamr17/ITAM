@@ -92,7 +92,13 @@ class NetworkController extends Controller
             $start = new \DateTime($startTime);
             $end = new \DateTime($endTime);
             $interval = $start->diff($end);
-            $duration = $interval->format('%h h %i m'); // Format sesuai kebutuhan
+        
+            // Total jam dan menit
+            $totalHours = ($interval->days * 24) + $interval->h;
+            $totalMinutes = $totalHours * 60 + $interval->i;
+        
+            // Format durasi menjadi jam dan menit
+            $duration = sprintf('%d h %d m', $totalHours, $interval->i);
         }
 
         // Simpan data ke database
@@ -164,8 +170,17 @@ class NetworkController extends Controller
             $start = new \DateTime($startTime);
             $end = new \DateTime($endTime);
             $interval = $start->diff($end);
-            $duration = $interval->format('%h h %i m'); // Format duration
+        
+            // Total jam dan menit
+            $totalHours = ($interval->days * 24) + $interval->h;
+            $totalMinutes = $totalHours * 60 + $interval->i;
+        
+            // Format durasi menjadi jam dan menit
+            $duration = sprintf('%d h %d m', $totalHours, $interval->i);
         }
+        
+        // Output atau simpan durasi
+        // dd($duration);
 
         // Update the network record
         $network->update([
