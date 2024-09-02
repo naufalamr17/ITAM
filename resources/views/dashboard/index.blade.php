@@ -124,23 +124,28 @@
                     <div class="card z-index-2">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                             <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
-
+                                <div class="chart">
+                                    <canvas id="telkomDowntimeChart" class="chart-canvas" height="170"></canvas>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="mb-0 "> Downtime Telkom </h6>
+                            <h6 class="mb-0">Downtime Telkom</h6>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-4 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                             <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
-
+                                <div class="chart">
+                                    <canvas id="bommDowntimeChart" class="chart-canvas" height="170"></canvas>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="mb-0 "> Downtime Bomm Akses </h6>
+                            <h6 class="mb-0">Downtime BOMM Akses</h6>
                         </div>
                     </div>
                 </div>
@@ -276,6 +281,88 @@
     <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Data from the backend
+            const telkomData = @json($telkomDowntime);
+            const bommData = @json($bommDowntime);
+
+            // Create Telkom downtime chart
+            const ctxTelkom = document.getElementById('telkomDowntimeChart').getContext('2d');
+            new Chart(ctxTelkom, {
+                type: 'pie',
+                data: {
+                    labels: telkomData.labels,
+                    datasets: [{
+                        data: telkomData.data,
+                        backgroundColor: ['#FF6384', '#36A2EB'],
+                        hoverBackgroundColor: ['#FF6384', '#36A2EB']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed) {
+                                        label += `${context.parsed.toFixed(2)} minutes`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Create BOMM downtime chart
+            const ctxBomm = document.getElementById('bommDowntimeChart').getContext('2d');
+            new Chart(ctxBomm, {
+                type: 'pie',
+                data: {
+                    labels: bommData.labels,
+                    datasets: [{
+                        data: bommData.data,
+                        backgroundColor: ['#FFCE56', '#4BC0C0'],
+                        hoverBackgroundColor: ['#FFCE56', '#4BC0C0']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed) {
+                                        label += `${context.parsed.toFixed(2)} minutes`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 
     <script>
         const statusCounts = @json($statusCounts);
