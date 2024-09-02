@@ -182,9 +182,19 @@ class NetworkController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(network $network)
+    public function destroy($id)
     {
-        //
+        // Find the network record by ID
+        $network = Network::find($id);
+
+        if (!$network) {
+            return redirect()->route('monitoring_network')->withErrors('Network record not found!');
+        }
+
+        // Delete the record
+        $network->delete();
+
+        return redirect()->route('monitoring_network')->with('success', 'Network problem deleted successfully!');
     }
 
     public function network1(Request $request)
@@ -196,7 +206,14 @@ class NetworkController extends Controller
                 ->addIndexColumn() // Jika Anda ingin menambahkan kolom nomor urut
                 ->addColumn('action', function ($row) {
                     $editUrl = route('network.edit', $row->id); // Ganti dengan route yang sesuai
-                    return '<a href="' . $editUrl . '" class="btn btn-dark btn-sm mt-3">Edit</a>';
+                    $deleteUrl = route('network.destroy', $row->id); // Ganti dengan route yang sesuai
+
+                    return '<a href="' . $editUrl . '" class="btn btn-dark btn-sm mt-3">Edit</a> ' .
+                        '<form action="' . $deleteUrl . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Are you sure you want to delete this item?\');">' .
+                        '<input type="hidden" name="_token" value="' . csrf_token() . '">' .
+                        '<input type="hidden" name="_method" value="DELETE">' .
+                        '<button type="submit" class="btn btn-danger btn-sm mt-3">Delete</button>' .
+                        '</form>';
                 })
                 ->rawColumns(['action']) // Agar DataTables tidak memproses HTML sebagai teks biasa
                 ->make(true);
@@ -212,7 +229,14 @@ class NetworkController extends Controller
                 ->addIndexColumn() // Jika Anda ingin menambahkan kolom nomor urut
                 ->addColumn('action', function ($row) {
                     $editUrl = route('network.edit', $row->id); // Ganti dengan route yang sesuai
-                    return '<a href="' . $editUrl . '" class="btn btn-dark btn-sm mt-3">Edit</a>';
+                    $deleteUrl = route('network.destroy', $row->id); // Ganti dengan route yang sesuai
+
+                    return '<a href="' . $editUrl . '" class="btn btn-dark btn-sm mt-3">Edit</a> ' .
+                        '<form action="' . $deleteUrl . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Are you sure you want to delete this item?\');">' .
+                        '<input type="hidden" name="_token" value="' . csrf_token() . '">' .
+                        '<input type="hidden" name="_method" value="DELETE">' .
+                        '<button type="submit" class="btn btn-danger btn-sm mt-3">Delete</button>' .
+                        '</form>';
                 })
                 ->rawColumns(['action']) // Agar DataTables tidak memproses HTML sebagai teks biasa
                 ->make(true);

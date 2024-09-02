@@ -97,6 +97,7 @@ Route::get('/network2', [NetworkController::class, 'network2'])->name('network2'
 Route::get('network/edit/{id}', [NetworkController::class, 'edit'])->name('network.edit')->middleware('auth');
 Route::put('network/{id}', [NetworkController::class, 'update'])->name('network.update')->middleware('auth');
 Route::post('/problems', [NetworkController::class, 'store'])->name('problems.store')->middleware('auth');
+Route::delete('/network/{id}', [NetworkController::class, 'destroy'])->name('network.destroy')->middleware('auth');
 
 Route::post('/approval', function (Request $request) {
 	// Access form data using $request object
