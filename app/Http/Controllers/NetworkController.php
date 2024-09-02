@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\network;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class NetworkController extends Controller
@@ -120,17 +121,62 @@ class NetworkController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(network $network)
+    public function edit($id)
     {
-        //
+        // Ambil data network berdasarkan ID
+        $network = Network::findOrFail($id);
+        // dd($network);
+
+        return view('pages.network.edit', compact('network'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, network $network)
+    public function update(Request $request, $id)
     {
-        //
+        // Define validation rules
+        $validator = Validator::make($request->all(), [
+            'provider'    => 'required|string|max:255',
+            'start_time'  => 'required|date_format:Y-m-d\TH:i',
+            'end_time'    => 'nullable|date_format:Y-m-d\TH:i|after_or_equal:start_time',
+            'resolution'  => 'nullable|string|max:255',
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Find the network record by ID
+        $network = Network::find($id);
+
+        if (!$network) {
+            return redirect()->route('monitoring_network')->withErrors('Network record not found!');
+        }
+
+        // Calculate duration if end_time is provided
+        $startTime = $request->input('start_time');
+        $endTime = $request->input('end_time');
+        $duration = null;
+
+        if ($endTime) {
+            $start = new \DateTime($startTime);
+            $end = new \DateTime($endTime);
+            $interval = $start->diff($end);
+            $duration = $interval->format('%h h %i m'); // Format duration
+        }
+
+        // Update the network record
+        $network->update([
+            'provider'    => $request->input('provider'),
+            'start_time'  => $startTime,
+            'end_time'    => $endTime,
+            'resolution'  => $request->input('resolution'),
+            'duration'    => $duration, // Save calculated duration
+        ]);
+
+        return redirect()->route('monitoring_network')->with('success', 'Network updated successfully!');
     }
 
     /**
