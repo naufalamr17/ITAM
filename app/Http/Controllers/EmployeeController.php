@@ -20,14 +20,29 @@ class EmployeeController extends Controller
                 ->addColumn('action', function ($employee) {
                     $editUrl = route('employee.edit', $employee->id);
                     $deleteUrl = route('employee.destroy', $employee->id);
+                    // Mendapatkan lokasi pengguna yang sedang terautentikasi
+                    $userLocation = auth()->user()->location;
+
+                    // Mengecek apakah lokasi pengguna adalah Head Office
+                    if ($userLocation !== 'Head Office') {
+                        // Jika bukan Head Office, nonaktifkan tombol dan form
+                        return '
+                            <a href="#" class="btn btn-sm btn-secondary mt-3 disabled" aria-disabled="true">Edit</a>
+                            <form action="#" method="POST" style="display:inline;">
+                                <button type="button" class="btn btn-sm btn-danger mt-3 disabled" aria-disabled="true">Delete</button>
+                            </form>
+                        ';
+                    }
+
+                    // Jika lokasi adalah Head Office, tampilkan tombol dengan fungsi normal
                     return '
-                <a href="' . $editUrl . '" class="btn btn-sm btn-secondary mt-3">Edit</a>
-                <form action="' . $deleteUrl . '" method="POST" style="display:inline;">
-                    ' . csrf_field() . '
-                    ' . method_field('DELETE') . '
-                    <button type="submit" class="btn btn-sm btn-danger mt-3">Delete</button>
-                </form>
-            ';
+                        <a href="' . $editUrl . '" class="btn btn-sm btn-secondary mt-3">Edit</a>
+                        <form action="' . $deleteUrl . '" method="POST" style="display:inline;">
+                            ' . csrf_field() . '
+                            ' . method_field('DELETE') . '
+                            <button type="submit" class="btn btn-sm btn-danger mt-3">Delete</button>
+                        </form>
+                    ';
                 })
                 ->make(true);
         }
