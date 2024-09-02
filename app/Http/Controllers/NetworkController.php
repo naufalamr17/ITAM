@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\network;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -13,7 +14,39 @@ class NetworkController extends Controller
      */
     public function index()
     {
-        return view('pages.network.index');
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+
+        // Calculate downtime for Telkom
+        $telkomDowntime = Network::where('provider', 'Telkom')
+            ->whereMonth('start_time', $currentMonth)
+            ->whereYear('start_time', $currentYear)
+            ->get()
+            ->map(function ($item) {
+                if ($item->end_time) {
+                    return Carbon::parse($item->end_time)->diffInMinutes(Carbon::parse($item->start_time));
+                }
+                return 0;
+            })
+            ->sum();
+
+        // Calculate downtime for Bomm Akses
+        $bommAksesDowntime = Network::where('provider', 'Bomm Akses')
+            ->whereMonth('start_time', $currentMonth)
+            ->whereYear('start_time', $currentYear)
+            ->get()
+            ->map(function ($item) {
+                if ($item->end_time) {
+                    return Carbon::parse($item->end_time)->diffInMinutes(Carbon::parse($item->start_time));
+                }
+                return 0;
+            })
+            ->sum();
+
+        return view('pages.network.index', [
+            'telkomDowntime' => $telkomDowntime,
+            'bommAksesDowntime' => $bommAksesDowntime,
+        ]);
     }
 
     /**

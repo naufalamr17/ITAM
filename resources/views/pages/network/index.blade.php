@@ -168,6 +168,7 @@
                                     </thead>
                                 </table>
                             </div>
+                            <p class="downtime-summary mt-2">Downtime for Telkom this month: {{ $telkomDowntime }} minutes</p>
                         </div>
 
                         <hr>
@@ -190,6 +191,7 @@
                                     </thead>
                                 </table>
                             </div>
+                            <p class="downtime-summary mt-2">Downtime for Bomm Akses this month: {{ $bommAksesDowntime }} minutes</p>
                         </div>
                     </div>
                 </div>
