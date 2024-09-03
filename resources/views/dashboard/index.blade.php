@@ -79,76 +79,6 @@
                     </div>
                 </div>
                 @endif
-                <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                    <div class="card z-index-2">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                            <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
-                                <div class="table-responsive p-0" style="height: 170px;">
-                                    <table id="inventoryTable" class="table align-items-center mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('No') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Provider') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Issue') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Details') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Start Time') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('End Time') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Duration') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Resolution') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($network as $index => $network)
-                                            <tr class="text-center text-xxs">
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $network->provider }}</td>
-                                                <td>{{ $network->issue }}</td>
-                                                <td>{{ $network->details }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($network->start_time)->format('d-m-Y H:i') }}</td>
-                                                <td>{{ $network->end_time ? \Carbon\Carbon::parse($network->end_time)->format('d-m-Y H:i') : '-' }}</td>
-                                                <td>{{ $network->duration }}</td>
-                                                <td>{{ $network->resolution }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="mb-0 "> Monitoring Network </h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                    <div class="card z-index-2">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                            <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
-                                <div class="chart">
-                                    <canvas id="telkomDowntimeChart" class="chart-canvas" height="170"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="mb-0">Downtime Telkom</h6>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                    <div class="card z-index-2">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                            <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
-                                <div class="chart">
-                                    <canvas id="bommDowntimeChart" class="chart-canvas" height="170"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="mb-0">Downtime BOMM Akses</h6>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-lg-12 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
@@ -268,6 +198,137 @@
                         </div>
                         <div class="card-body">
                             <h6 class="mb-0 "> Dispose Asset </h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                    <div class="card z-index-2">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                            <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
+                                <div class="table-responsive p-0" style="height: 170px;">
+                                    <table id="inventoryTable" class="table align-items-center mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('No') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Provider') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Issue') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Details') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Start Time') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('End Time') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Duration') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Resolution') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($network as $index => $network)
+                                            <tr class="text-center text-xxs">
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $network->provider }}</td>
+                                                <td>{{ $network->issue }}</td>
+                                                <td>{{ $network->details }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($network->start_time)->format('d-m-Y H:i') }}</td>
+                                                <td>{{ $network->end_time ? \Carbon\Carbon::parse($network->end_time)->format('d-m-Y H:i') : '-' }}</td>
+                                                <td>{{ $network->duration }}</td>
+                                                <td>{{ $network->resolution }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="mb-0 "> Monitoring Network </h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                    <div class="card z-index-2">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                            <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
+                                <div class="chart">
+                                    <canvas id="telkomDowntimeChart" class="chart-canvas" height="170"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="mb-0">Downtime Telkom</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                    <div class="card z-index-2">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                            <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
+                                <div class="chart">
+                                    <canvas id="bommDowntimeChart" class="chart-canvas" height="170"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="mb-0">Downtime BOMM Akses</h6>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 mt-4 mb-4">
+                    <div class="card z-index-2">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                            <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
+                                <div class="table-responsive p-0" style="height: 170px;">
+                                    <table id="inventoryTable" class="table align-items-center mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('No') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Provider') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Issue') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Details') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Start Time') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('End Time') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Duration') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Resolution') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="mb-0 "> Monitoring Network </h6>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 mt-4 mb-4">
+                    <div class="card z-index-2">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                            <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
+                                <div class="table-responsive p-0" style="height: 170px;">
+                                    <table id="inventoryTable" class="table align-items-center mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('No') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Provider') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Issue') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Details') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Start Time') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('End Time') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Duration') }}</th>
+                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Resolution') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="mb-0 "> Monitoring Network </h6>
                         </div>
                     </div>
                 </div>
