@@ -289,7 +289,7 @@ class InventoryController extends Controller
 
     public function repair()
     {
-        if (Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
+        if (Auth::user()->status == 'Administrator' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
             $inventory = inventory::join('repairstatuses', 'inventories.id', '=', 'repairstatuses.inv_id')
                 ->select(
                     'inventories.asset_code',
@@ -315,7 +315,8 @@ class InventoryController extends Controller
                     'repairstatuses.tanggal_pengembalian',
                     'repairstatuses.note'
                 )
-                ->where('inventories.location', Auth::user()->location)
+                ->where('inventories.location', 'Office Kendari')
+                ->orWhere('inventories.location', 'Site Molore')
                 ->get();
         }
 
