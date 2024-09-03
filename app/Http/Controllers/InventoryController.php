@@ -17,14 +17,15 @@ class InventoryController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
+        if (Auth::user()->status == 'Administrator' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
             // Ambil semua inventory yang statusnya bukan 'Dispose' dan urutkan berdasarkan acquisition_date desc
             $inventory = Inventory::where('status', '!=', 'Dispose')
                 ->orderBy('acquisition_date', 'desc')
                 ->get();
         } else {
             $inventory = Inventory::where('status', '!=', 'Dispose')
-                ->where('location', Auth::user()->location)
+                ->where('location', 'Office Kendari')
+                ->orWhere('location', 'Site Molore')
                 ->orderBy('acquisition_date', 'desc')
                 ->get();
         }
