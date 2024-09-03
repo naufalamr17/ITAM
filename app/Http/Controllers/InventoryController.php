@@ -411,7 +411,7 @@ class InventoryController extends Controller
 
     public function dispose()
     {
-        if (Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
+        if (Auth::user()->status == 'Administrator' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
             $inventory = inventory::join('disposes', 'inventories.id', '=', 'disposes.inv_id')
                 ->select(
                     'inventories.asset_code',
@@ -441,7 +441,8 @@ class InventoryController extends Controller
                     'disposes.approval',
                     'disposes.disposal_document',
                 )
-                ->where('inventories.location', Auth::user()->location)
+                ->where('inventories.location', 'Office Kendari')
+                ->orWhere('inventories.location', 'Site Molore')
                 ->get();
         }
 
