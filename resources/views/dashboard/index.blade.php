@@ -205,40 +205,13 @@
                     <div class="card z-index-2">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                             <div class="bg-white shadow-dark border-radius-lg py-3 ps-2 pe-2">
-                                <div class="table-responsive p-0" style="height: 170px;">
-                                    <table id="inventoryTable" class="table align-items-center mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('No') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Provider') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Issue') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Details') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Start Time') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('End Time') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Duration') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Resolution') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($network as $index => $network)
-                                            <tr class="text-center text-xxs">
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $network->provider }}</td>
-                                                <td>{{ $network->issue }}</td>
-                                                <td>{{ $network->details }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($network->start_time)->format('d-m-Y H:i') }}</td>
-                                                <td>{{ $network->end_time ? \Carbon\Carbon::parse($network->end_time)->format('d-m-Y H:i') : '-' }}</td>
-                                                <td>{{ $network->duration }}</td>
-                                                <td>{{ $network->resolution }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                <div class="chart">
+                                    <canvas id="downtimeChart" class="chart-canvas" height="170"></canvas>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="mb-0 "> Monitoring Network </h6>
+                            <h6 class="mb-0 "> Monthly Downtime </h6>
                         </div>
                     </div>
                 </div>
@@ -270,7 +243,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-6 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
@@ -280,7 +252,6 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('No') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Provider') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Issue') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Details') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Start Time') }}</th>
@@ -290,18 +261,27 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
+                                            @foreach($telkom as $index => $telkom)
+                                            <tr class="text-center text-xxs">
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $telkom->issue }}</td>
+                                                <td>{{ $telkom->details }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($telkom->start_time)->format('d-m-Y H:i') }}</td>
+                                                <td>{{ $telkom->end_time ? \Carbon\Carbon::parse($telkom->end_time)->format('d-m-Y H:i') : '-' }}</td>
+                                                <td>{{ $telkom->duration }}</td>
+                                                <td>{{ $telkom->resolution }}</td>
+                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="mb-0 "> Monitoring Network </h6>
+                            <h6 class="mb-0 "> Monitoring Network Telkom </h6>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-6 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
@@ -311,7 +291,6 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('No') }}</th>
-                                                <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Provider') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Issue') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Details') }}</th>
                                                 <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Start Time') }}</th>
@@ -321,14 +300,24 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
+                                            @foreach($bomm as $index => $bomm)
+                                            <tr class="text-center text-xxs">
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $bomm->issue }}</td>
+                                                <td>{{ $bomm->details }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($bomm->start_time)->format('d-m-Y H:i') }}</td>
+                                                <td>{{ $bomm->end_time ? \Carbon\Carbon::parse($bomm->end_time)->format('d-m-Y H:i') : '-' }}</td>
+                                                <td>{{ $bomm->duration }}</td>
+                                                <td>{{ $bomm->resolution }}</td>
+                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="mb-0 "> Monitoring Network </h6>
+                            <h6 class="mb-0 "> Monitoring Network Bomm Akses </h6>
                         </div>
                     </div>
                 </div>
@@ -342,6 +331,81 @@
     <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+    <script>
+        // Get the merged data from PHP to JavaScript
+        var mergedData = @json($mergedData);
+
+        // Extract labels and datasets from merged data
+        var networkLabels = mergedData.map(function(item) {
+            return item.month;
+        });
+
+        var telkomDowntime = mergedData.map(function(item) {
+            return item.telkom_downtime;
+        });
+
+        var bommDowntime = mergedData.map(function(item) {
+            return item.bomm_downtime;
+        });
+
+        // Create the line chart
+        var networkCtx = document.getElementById('downtimeChart').getContext('2d');
+        var downtimeChart = new Chart(networkCtx, {
+            type: 'line',  // Set chart type to 'line'
+            data: {
+                labels: networkLabels,
+                datasets: [
+                    {
+                        label: 'Telkom Downtime',
+                        data: telkomDowntime,
+                        backgroundColor: 'rgba(0, 128, 255, 0.2)',  // Light blue background
+                        borderColor: 'rgba(0, 128, 255, 1)',  // Dark blue line
+                        borderWidth: 2,
+                        fill: false,  // No fill under the line
+                    },
+                    {
+                        label: 'Bomm Downtime',
+                        data: bommDowntime,
+                        backgroundColor: 'rgba(255, 69, 0, 0.2)',  // Light red background
+                        borderColor: 'rgba(255, 69, 0, 1)',  // Red line
+                        borderWidth: 2,
+                        fill: false,  // No fill under the line
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Downtime (minutes)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: true,
+                        mode: 'index',
+                        intersect: false,
+                    }
+                }
+            }
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
