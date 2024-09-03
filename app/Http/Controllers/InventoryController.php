@@ -487,7 +487,7 @@ class InventoryController extends Controller
 
     public function report()
     {
-        if (Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
+        if (Auth::user()->status == 'Administrator' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
             $inventoryData = Inventory::leftJoin('disposes', 'inventories.id', '=', 'disposes.inv_id')
                 ->leftJoin('repairstatuses', 'inventories.id', '=', 'repairstatuses.inv_id')
                 ->leftJoin('userhists', 'inventories.id', '=', 'userhists.inv_id')
@@ -529,7 +529,8 @@ class InventoryController extends Controller
                     'disposes.tanggal_penghapusan',
                     DB::raw('COALESCE(disposes.note, repairstatuses.note) as remarks')
                 )
-                ->where('inventories.location', Auth::user()->location)
+                ->where('inventories.location', 'Office Kendari')
+                ->orWhere('inventories.location', 'Site Molore')
                 ->orderBy('inventories.acquisition_date', 'desc')
                 ->get();
         }
