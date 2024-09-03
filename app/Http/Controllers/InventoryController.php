@@ -252,7 +252,7 @@ class InventoryController extends Controller
 
     public function history()
     {
-        if (Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
+        if (Auth::user()->status == 'Administrator' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
             $userhist = Userhist::join('inventories', 'userhists.inv_id', '=', 'inventories.id')
                 ->select(
                     'inventories.asset_code as kode_asset',
