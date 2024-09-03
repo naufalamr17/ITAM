@@ -14,7 +14,7 @@ class DashboardController extends Controller
     {
         // dd(Auth::user());
 
-        if (Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
+        if (Auth::user()->status == 'Administrator' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
             $assets = Inventory::all();
 
             // Aggregate data for asset growth per year and location
@@ -95,20 +95,24 @@ class DashboardController extends Controller
                 ->take(5)
                 ->get();
         } else {
-            $assets = Inventory::where('location', Auth::user()->location)->get();
+            $assets = Inventory::where('location', 'Office Kendari')
+                ->orWhere('location', 'Site Molore')
+                ->get();
 
-            // Aggregate data for asset growth per year
+            // Aggregate data for asset growth per year and location
             $yearlyGrowth = $assets->filter(function ($item) {
                 // Filter hanya data dengan acquisition_date tidak kosong
                 return $item->acquisition_date !== '-';
             })->groupBy(function ($item) {
-                // Menggunakan Carbon untuk mengurai acquisition_date yang valid
-                return Carbon::parse($item->acquisition_date)->format('Y');
+                // Menggunakan Carbon untuk mengurai acquisition_date yang valid dan lokasi
+                return Carbon::parse($item->acquisition_date)->format('Y') . '_' . $item->location;
             })->map->count();
 
             // Convert to a format suitable for charts (if necessary)
-            $yearlyGrowthFormatted = $yearlyGrowth->sortKeys()->map(function ($count, $year) {
-                return ['year' => $year, 'count' => $count];
+            $yearlyGrowthFormatted = $yearlyGrowth->sortKeys()->map(function ($count, $year_location) {
+                // Memisahkan tahun dan lokasi dari kunci yang digunakan untuk pengelompokan
+                list($year, $location) = explode('_', $year_location);
+                return ['year' => $year, 'location' => $location, 'count' => $count];
             })->values();
 
             // Aggregate data for the charts
@@ -119,22 +123,28 @@ class DashboardController extends Controller
 
             // Aggregate data for asset growth per month in the last year
             $oneYearAgo = Carbon::now()->subYear();
+            $locations = ['Office Kendari', 'Site Molore']; // Tambahkan lokasi yang Anda inginkan
+
             $monthlyGrowth = $assets->filter(function ($item) use ($oneYearAgo) {
                 // Filter hanya data dengan acquisition_date tidak sama dengan '-'
                 return $item->acquisition_date !== '-' && Carbon::parse($item->acquisition_date)->greaterThanOrEqualTo($oneYearAgo);
             })->groupBy(function ($item) {
-                // Menggunakan Carbon untuk mengurai acquisition_date yang valid
-                return Carbon::parse($item->acquisition_date)->format('Y-m');
+                // Mengelompokkan data berdasarkan bulan dan lokasi
+                return Carbon::parse($item->acquisition_date)->format('Y-m') . '|' . $item->location;
             })->map->count();
 
             // Ensure every month in the last year is represented, even if the count is zero
             $monthlyGrowthFormatted = collect();
             for ($i = 0; $i < 12; $i++) {
                 $date = Carbon::now()->subMonths($i)->format('Y-m');
-                $monthlyGrowthFormatted->push([
-                    'month' => $date,
-                    'count' => $monthlyGrowth->get($date, 0)
-                ]);
+                foreach ($locations as $location) {
+                    $key = $date . '|' . $location;
+                    $monthlyGrowthFormatted->push([
+                        'month' => $date,
+                        'location' => $location,
+                        'count' => $monthlyGrowth->get($key, 0)
+                    ]);
+                }
             }
             $monthlyGrowthFormatted = $monthlyGrowthFormatted->sortBy('month')->values();
 
