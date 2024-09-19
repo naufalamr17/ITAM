@@ -107,4 +107,49 @@ class DocumentationController extends Controller
         // Redirect or return response after successful deletion
         return redirect()->back()->with('success', 'Documentation deleted successfully.');
     }
+
+    public function edit($id)
+    {
+        // Find the documentation by ID
+        $documentation = Documentation::findOrFail($id);
+
+        // Return the edit view with the documentation data
+        return view('pages.documentation.edit', compact('documentation'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'file' => 'nullable|file|mimes:pdf,doc,docx|max:10240', // File is optional during update
+        ]);
+
+        // Find the documentation by ID
+        $documentation = Documentation::findOrFail($id);
+
+        // Handle file upload if a new file is provided
+        if ($request->hasFile('file')) {
+            // Delete the old file from storage
+            if (Storage::exists('public/' . $documentation->file_path)) {
+                Storage::delete('public/' . $documentation->file_path);
+            }
+
+            // Store the new file
+            $file = $request->file('file');
+            $filePath = $file->store('documentations', 'public'); // Store in the 'public/documentations' folder
+
+            // Update the file path in the database
+            $documentation->file_path = $filePath;
+        }
+
+        // Update the other fields
+        $documentation->judul = $request->input('judul');
+
+        // Save the changes
+        $documentation->save();
+
+        // Redirect or return response after successful update
+        return redirect()->route('documentation')->with('success', 'Documentation updated successfully.');
+    }
 }
