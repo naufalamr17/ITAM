@@ -94,6 +94,15 @@
                     <span class="nav-link-text ms-1">Monitoring Network</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ $activePage == 'documentation' ? ' active bg-gradient-dark' : '' }}" href="{{ route('documentation') }}" style="color: {{ $activePage == 'documentation' ? 'white' : 'black' }};">
+                    <div class="text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Mengganti ikon dengan ikon buku atau dokumen -->
+                        <i class="fas fa-book" style="color: {{ $activePage == 'documentation' ? 'white' : 'black' }};"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Documentation</span>
+                </a>
+            </li>
             @if (Auth::check() && Auth::user()->status == 'Administrator')
             <li class="nav-item">
                 <a class="nav-link {{ $activePage == 'user-management' ? 'active bg-gradient-dark' : '' }}" href="{{ route('user-management') }}" style="color: {{ $activePage == 'user-management' ? 'white' : 'black' }};">

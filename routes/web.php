@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\NetworkController;
@@ -32,8 +33,8 @@ use App\Models\inventory;
 use Illuminate\Http\Request;
 
 Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
-Route::get('/home', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+// Route::get('/home', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 // Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 // Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
@@ -46,6 +47,12 @@ Route::get('verify', function () {
 Route::get('/reset-password/{token}', function ($token) {
 	return view('sessions.password.reset', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
+
+Route::get('/document', [DocumentationController::class, 'index'])->name('documentation')->middleware('auth');
+Route::post('/document/store', [DocumentationController::class, 'store'])->name('documentation.store')->middleware('auth');
+Route::get('/document/edit/{id}', [DocumentationController::class, 'edit'])->name('documentation.edit')->middleware('auth');
+Route::put('/document/update/{id}', [DocumentationController::class, 'update'])->name('documentation.update')->middleware('auth');
+Route::delete('/document/destroy/{id}', [DocumentationController::class, 'destroy'])->name('documentation.destroy')->middleware('auth');
 
 Route::post('sign-out', [SessionsController::class, 'destroy'])->middleware('auth')->name('logout');
 Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')->name('profile');
