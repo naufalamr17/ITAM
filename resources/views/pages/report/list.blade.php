@@ -170,6 +170,7 @@
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Merk') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Category') }}</th>
+                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Specification') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Location') }}</th>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Tanggal Perolehan') }}</th>
@@ -190,6 +191,7 @@
                                             <td>{{ $inventory->asset_code ?? '-' }}</td>
                                             <td>{{ $inventory->merk ?? '-' }}</td>
                                             <td>{{ $inventory->description ?? '-' }}</td>
+                                            <td>{{ $inventory->specification ?? '-' }}</td>
                                             <td>{{ $inventory->serial_number ?? '-' }}</td>
                                             <td>{{ $inventory->location ?? '-' }}</td>
                                             <td>{{ $inventory->acquisition_date ?? '-' }}</td>
@@ -251,7 +253,7 @@
                 "pageLength": -1,
                 "columnDefs": [{
                         "orderable": true,
-                        "targets": 5
+                        "targets": 6
                     }, // Enable ordering on the 8th column (index 7)
                     {
                         "orderable": false,
@@ -259,7 +261,7 @@
                     } // Disable ordering on all other columns
                 ],
                 "order": [
-                    [5, 'desc']
+                    [6, 'desc']
                 ],
                 "dom": '<"top">rt<"bottom"ip><"clear">',
             });
@@ -279,9 +281,9 @@
             $('#yearFilter').on('keyup', function() {
                 var year = $(this).val().trim();
                 if (year !== '') {
-                    table.columns(5).search('^' + year, true, false).draw();
+                    table.columns(6).search('^' + year, true, false).draw();
                 } else {
-                    table.columns(5).search('').draw();
+                    table.columns(6).search('').draw();
                 }
             });
 
@@ -289,9 +291,9 @@
             $('#statusFilter').on('change', function() {
                 var status = $(this).val().trim();
                 if (status !== '') {
-                    table.columns(10).search(status).draw();
+                    table.columns(11).search(status).draw();
                 } else {
-                    table.columns(10).search('').draw();
+                    table.columns(11).search('').draw();
                 }
             });
 
