@@ -127,6 +127,9 @@
                             <div class="mb-2 me-2">
                                 <input type="text" class="form-control border p-2" name="searchbox" id="searchbox" placeholder="Search..." style="max-width: 300px;" autofocus>
                             </div>
+                            <div class="mb-2 me-2">
+                                <input type="number" class="form-control border p-2" name="yearFilter" id="yearFilter" placeholder="Filter by Year">
+                            </div>
                             @if (Auth::check() && Auth::user()->status != 'Viewers')
                             <div class="ms-auto mb-2">
                                 <a class="btn bg-gradient-dark mb-0" id="openModalButton" data-bs-toggle="modal" data-bs-target="#bastModal">
@@ -358,6 +361,16 @@
                     }, 2000);
                 }
             });
+
+            // Filter by year functionality
+            $('#yearFilter').on('keyup', function() {
+                var year = $(this).val().trim();
+                if (year !== '') {
+                    table.columns(1).search('^' + year, true, false).draw();
+                } else {
+                    table.columns(1).search('').draw();
+                }
+            })
         });
     </script>
 
