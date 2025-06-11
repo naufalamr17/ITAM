@@ -1,4 +1,4 @@
-# MLP ASSET MANAGEMENT Application Installation Guide
+# MLP IT ASSET MANAGEMENT Application Installation Guide
 
 This guide will walk you through the steps to install the application.
 
