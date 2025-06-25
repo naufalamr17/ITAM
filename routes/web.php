@@ -32,9 +32,9 @@ use App\Models\employee;
 use App\Models\inventory;
 use Illuminate\Http\Request;
 
-Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->middleware('auth');
 // Route::get('/home', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 // Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 // Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
