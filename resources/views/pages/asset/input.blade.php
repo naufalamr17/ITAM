@@ -154,7 +154,7 @@
                         <h6 class="ms-3">Laptop & PC</h6>
                         <div class="card-body px-2 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0 inventoryTable">
+                                <table class="table align-items-center mb-0 inventoryTable" id="laptopTable">
                                     <thead>
                                         <tr>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
@@ -629,16 +629,37 @@
     <!-- Initialize DataTable -->
     <script>
         $(document).ready(function() {
-            var table = $('.inventoryTable').DataTable({
+            // DataTable khusus untuk Laptop & PC (urut Comp Name, Kode Asset, Dept)
+            var laptopTable = $('#laptopTable').DataTable({
+                "pageLength": 50,
+                "columnDefs": [{
+                        "orderable": true,
+                        "targets": [1, 0, 19]
+                    }, // Comp Name, Kode Asset, Dept
+                    {
+                        "orderable": false,
+                        "targets": '_all'
+                    }
+                ],
+                "order": [
+                    [1, 'asc'], // Comp Name
+                    [0, 'asc'], // Kode Asset
+                    [19, 'asc'] // Dept
+                ],
+                "dom": '<"top">rt<"bottom"ip><"clear">',
+            });
+
+            // DataTable untuk tabel lain
+            $('.inventoryTable').not('#laptopTable').DataTable({
                 "pageLength": 50,
                 "columnDefs": [{
                         "orderable": true,
                         "targets": [0]
-                    }, // Enable ordering on the 8th column (index 7)
+                    },
                     {
                         "orderable": false,
                         "targets": '_all'
-                    } // Disable ordering on all other columns
+                    }
                 ],
                 "order": [
                     [9, 'desc']
@@ -646,13 +667,14 @@
                 "dom": '<"top">rt<"bottom"ip><"clear">',
             });
 
-            // Add the search functionality
+            // Searchbox untuk semua tabel
             $('#searchbox').on('keyup', function() {
-                table.search(this.value).draw();
+                laptopTable.search(this.value).draw();
+                $('.inventoryTable').not('#laptopTable').DataTable().search(this.value).draw();
 
                 if (this.value.length >= 13) {
                     setTimeout(() => {
-                        this.select(); // Seleksi seluruh teks di dalam kotak pencarian
+                        this.select();
                     }, 2000);
                 }
             });
