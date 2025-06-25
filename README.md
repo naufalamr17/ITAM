@@ -1,4 +1,4 @@
-# MLP ASSET MANAGEMENT Application Installation Guide
+# MLP IT ASSET MANAGEMENT Application Installation Guide
 
 This guide will walk you through the steps to install the application.
 
@@ -14,7 +14,7 @@ Before you begin, make sure you have the following software installed:
 1. Clone this GitHub repository:
 
     ```sh
-    git clone https://github.com/naufalamr17/AssetManagement.git
+    git clone https://github.com/naufalamr17/ITAM.git
     ```
 
 2. Install Composer:
