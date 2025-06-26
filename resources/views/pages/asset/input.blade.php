@@ -133,6 +133,14 @@
                                     <i class="fas fa-camera"></i>
                                 </button>
                             </div>
+                            <div class="mb-2 me-2">
+                                <select id="categoryFilter" class="form-select p-2" style="min-width: 160px;">
+                                    <option value="">All Category</option>
+                                    @foreach($categories as $cat)
+                                    <option value="{{ $cat }}">{{ $cat }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             @if (Auth::check() && Auth::user()->status != 'Viewers')
                             <div class="ms-auto mb-2">
                                 <a class="btn bg-gradient-dark mb-0" href="{{ route('add_inventory') }}">
@@ -151,10 +159,9 @@
                             </div>
                         </div>
 
-                        <h6 class="ms-3">Laptop & PC</h6>
                         <div class="card-body px-2 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0 inventoryTable" id="laptopTable">
+                                <table class="table align-items-center mb-0" id="assetTable">
                                     <thead>
                                         <tr>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
@@ -185,7 +192,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($group3 as $inv)
+                                        @foreach($inventory as $inv)
                                         <tr class="text-center" style="font-size: 14px;">
                                             <td>{{ $inv->asset_code ?? '-' }}</td>
                                             <td>{{ $inv->comp_name ?? '-' }}</td>
@@ -207,27 +214,22 @@
                                                 $usefulLifeYears = $inv->useful_life;
                                                 $currentDate = new DateTime();
 
-                                                // Calculate the end date of the useful life directly
                                                 $endOfUsefulLife = clone $acquisitionDate;
                                                 $endOfUsefulLife->modify("+{$usefulLifeYears} years");
 
                                                 $interval = $currentDate->diff($endOfUsefulLife);
 
                                                 if ($currentDate > $endOfUsefulLife) {
-                                                    $remainingDays = -$interval->days; // Use negative value for overdue days
+                                                    $remainingDays = -$interval->days;
                                                 } else {
                                                     $remainingDays = $interval->days;
                                                 }
 
                                                 $message = "{$remainingDays} hari";
 
-                                                // Output the message
-                                                // echo $message;
-
                                                 $usefulLifeYears = $inv->useful_life;
-                                                $depreciationRate = 1 / $usefulLifeYears; // Calculate the depreciation rate
+                                                $depreciationRate = 1 / ($usefulLifeYears ?: 1);
 
-                                                // Initialize variables
                                                 $acquisitionValue = $inv->acquisition_value;
                                                 $yearsUsed = $acquisitionDate->diff($currentDate)->y;
                                                 $depreciatedValue = $acquisitionValue;
@@ -237,22 +239,14 @@
                                                     $annualDepreciation = $depreciatedValue * $depreciationRate;
                                                     $accumulatedDepreciation += $annualDepreciation;
                                                     $depreciatedValue -= $annualDepreciation;
-
-                                                    // Ensure depreciated value doesn't go below zero
                                                     if ($depreciatedValue < 0) {
                                                         $depreciatedValue = 0;
                                                         break;
                                                     }
                                                 }
-
-                                                // Ensure the values are appropriately handled when useful life is zero or not defined
                                                 if ($usefulLifeYears == 0) {
                                                     $depreciatedValue = $acquisitionValue;
                                                 }
-
-                                                // Output the final depreciated value and accumulated depreciation
-                                                // echo "Depreciated Value: " . $depreciatedValue . "\n";
-                                                // echo "Accumulated Depreciation: " . $accumulatedDepreciation . "\n";
                                             }
                                             ?>
                                             @if (Auth::check() && (Auth::user()->location != 'Site Molore' && Auth::user()->location != 'Office Kendari'))
@@ -274,308 +268,6 @@
                                             <td>{{ $inv->user ?? '-' }}</td>
                                             <td>{{ $inv->job_position ?? '-' }}</td>
                                             <td>{{ $inv->dept ?? '-' }}</td>
-                                            @if (Auth::check() && Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin')
-                                            <td>
-                                                <div class="d-flex align-items-center justify-content-center">
-                                                    <div class="p-1">
-                                                        <a href="{{ route('edit_inventory', ['id' => $inv->id]) }}" class="btn btn-success btn-sm p-0 mt-3" style="width: 24px; height: 24px;">
-                                                            <i class="material-icons" style="font-size: 16px;">edit</i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="mx-1"></div>
-                                                    <form action="{{ route('destroy_inventory', ['id' => $inv->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this asset?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm p-0 mt-3" style="width: 24px; height: 24px;">
-                                                            <i class="material-icons" style="font-size: 16px;">close</i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                            @endif
-                                            @if (Auth::check() && Auth::user()->status == 'Modified')
-                                            <td>
-                                                <div class="d-flex align-items-center justify-content-center">
-                                                    <div class="p-1">
-                                                        <a href="{{ route('edit_inventory', ['id' => $inv->id]) }}" class="btn btn-success btn-sm p-0 mt-3" style="width: 24px; height: 24px;">
-                                                            <i class="material-icons" style="font-size: 16px;">edit</i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="mx-1"></div>
-                                                </div>
-                                            </td>
-                                            @endif
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <h6 class="ms-3">Scanner & Printer</h6>
-                        <div class="card-body px-2 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0 inventoryTable">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Location') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Category') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Merk') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Type') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Serial Number') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Tanggal Perolehan') }}</th>
-                                            @if (Auth::check() && (Auth::user()->location != 'Site Molore' && Auth::user()->location != 'Office Kendari'))
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Nilai Perolehan') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Nilai Saat Ini') }}</th>
-                                            @endif
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Sisa Waktu Pakai (hari)') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Status') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Hand Over Date') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('NIK') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('User') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Job Position') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Dept') }}</th>
-                                            @if (Auth::check() && (Auth::user()->status == 'Administrator' || Auth::user()->status == 'Modified' || Auth::user()->status == 'Super Admin'))
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Action') }}</th>
-                                            @endif
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($group2 as $inv)
-                                        <tr class="text-center" style="font-size: 14px;">
-                                            <td>{{ $inv->asset_code ?? '-' }}</td>
-                                            <td>{{ $inv->location ?? '-' }}</td>
-                                            <td>{{ $inv->description ?? '-' }}</td>
-                                            <td>{{ $inv->merk ?? '-' }}</td>
-                                            <td>{{ $inv->type ?? '-' }}</td>
-                                            <td>{{ !empty($inv->serial_number) ? $inv->serial_number : '-' }}</td>
-                                            <td>{{ $inv->acquisition_date ?? '-' }}</td>
-                                            <?php
-                                            if ($inv->acquisition_date === '-') {
-                                                $message = "Tanggal tidak terdefinisi";
-                                                $depreciatedValue = "-";
-                                            } else {
-                                                $acquisitionDate = new DateTime($inv->acquisition_date);
-                                                $usefulLifeYears = $inv->useful_life;
-                                                $currentDate = new DateTime();
-
-                                                // Calculate the end date of the useful life directly
-                                                $endOfUsefulLife = clone $acquisitionDate;
-                                                $endOfUsefulLife->modify("+{$usefulLifeYears} years");
-
-                                                $interval = $currentDate->diff($endOfUsefulLife);
-
-                                                if ($currentDate > $endOfUsefulLife) {
-                                                    $remainingDays = -$interval->days; // Use negative value for overdue days
-                                                } else {
-                                                    $remainingDays = $interval->days;
-                                                }
-
-                                                $message = "{$remainingDays} hari";
-
-                                                // Output the message
-                                                // echo $message;
-
-                                                $usefulLifeYears = $inv->useful_life;
-                                                $depreciationRate = 1 / $usefulLifeYears; // Calculate the depreciation rate
-
-                                                // Initialize variables
-                                                $acquisitionValue = $inv->acquisition_value;
-                                                $yearsUsed = $acquisitionDate->diff($currentDate)->y;
-                                                $depreciatedValue = $acquisitionValue;
-                                                $accumulatedDepreciation = 0;
-
-                                                for ($year = 1; $year <= $yearsUsed; $year++) {
-                                                    $annualDepreciation = $depreciatedValue * $depreciationRate;
-                                                    $accumulatedDepreciation += $annualDepreciation;
-                                                    $depreciatedValue -= $annualDepreciation;
-
-                                                    // Ensure depreciated value doesn't go below zero
-                                                    if ($depreciatedValue < 0) {
-                                                        $depreciatedValue = 0;
-                                                        break;
-                                                    }
-                                                }
-
-                                                // Ensure the values are appropriately handled when useful life is zero or not defined
-                                                if ($usefulLifeYears == 0) {
-                                                    $depreciatedValue = $acquisitionValue;
-                                                }
-
-                                                // Output the final depreciated value and accumulated depreciation
-                                                // echo "Depreciated Value: " . $depreciatedValue . "\n";
-                                                // echo "Accumulated Depreciation: " . $accumulatedDepreciation . "\n";
-                                            }
-                                            ?>
-                                            @if (Auth::check() && (Auth::user()->location != 'Site Molore' && Auth::user()->location != 'Office Kendari'))
-                                            @if($inv->acquisition_value == 0)
-                                            <td>-</td>
-                                            @else
-                                            <td>{{ number_format($inv->acquisition_value, 0, ',', '.') }}</td>
-                                            @endif
-                                            @if($inv->acquisition_value == 0)
-                                            <td>-</td>
-                                            @else
-                                            <td>{{ $depreciatedValueFormatted = $depreciatedValue === '-' ? '-' : number_format($depreciatedValue, 0, ',', '.'); }}</td>
-                                            @endif
-                                            @endif
-                                            <td>{{ $message }}</td>
-                                            <td>{{ $inv->status ?? '-' }}</td>
-                                            <td>{{ $inv->hand_over_date ?? '-' }}</td>
-                                            <td>{{ $inv->nik ?? '-' }}</td>
-                                            <td>{{ $inv->user ?? '-' }}</td>
-                                            <td>{{ $inv->job_position ?? '-' }}</td>
-                                            <td>{{ $inv->dept ?? '-' }}</td>
-                                            @if (Auth::check() && Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin')
-                                            <td>
-                                                <div class="d-flex align-items-center justify-content-center">
-                                                    <div class="p-1">
-                                                        <a href="{{ route('edit_inventory', ['id' => $inv->id]) }}" class="btn btn-success btn-sm p-0 mt-3" style="width: 24px; height: 24px;">
-                                                            <i class="material-icons" style="font-size: 16px;">edit</i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="mx-1"></div>
-                                                    <form action="{{ route('destroy_inventory', ['id' => $inv->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this asset?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm p-0 mt-3" style="width: 24px; height: 24px;">
-                                                            <i class="material-icons" style="font-size: 16px;">close</i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                            @endif
-                                            @if (Auth::check() && Auth::user()->status == 'Modified')
-                                            <td>
-                                                <div class="d-flex align-items-center justify-content-center">
-                                                    <div class="p-1">
-                                                        <a href="{{ route('edit_inventory', ['id' => $inv->id]) }}" class="btn btn-success btn-sm p-0 mt-3" style="width: 24px; height: 24px;">
-                                                            <i class="material-icons" style="font-size: 16px;">edit</i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="mx-1"></div>
-                                                </div>
-                                            </td>
-                                            @endif
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <h6 class="ms-3">Wireless & Switch</h6>
-                        <div class="card-body px-2 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0 inventoryTable">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Location') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Category') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Merk') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Type') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Tanggal Perolehan') }}</th>
-                                            @if (Auth::check() && (Auth::user()->location != 'Site Molore' && Auth::user()->location != 'Office Kendari'))
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Nilai Perolehan') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Nilai Saat Ini') }}</th>
-                                            @endif
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Sisa Waktu Pakai (hari)') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Status') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Hand Over Date') }}</th>
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('User') }}</th>
-                                            @if (Auth::check() && (Auth::user()->status == 'Administrator' || Auth::user()->status == 'Modified' || Auth::user()->status == 'Super Admin'))
-                                            <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Action') }}</th>
-                                            @endif
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($group1 as $inv)
-                                        <tr class="text-center" style="font-size: 14px;">
-                                            <td>{{ $inv->asset_code ?? '-' }}</td>
-                                            <td>{{ $inv->location ?? '-' }}</td>
-                                            <td>{{ $inv->description ?? '-' }}</td>
-                                            <td>{{ $inv->merk ?? '-' }}</td>
-                                            <td>{{ $inv->type ?? '-' }}</td>
-                                            <td>{{ $inv->acquisition_date ?? '-' }}</td>
-                                            <?php
-                                            if ($inv->acquisition_date === '-') {
-                                                $message = "Tanggal tidak terdefinisi";
-                                                $depreciatedValue = "-";
-                                            } else {
-                                                $acquisitionDate = new DateTime($inv->acquisition_date);
-                                                $usefulLifeYears = $inv->useful_life;
-                                                $currentDate = new DateTime();
-
-                                                // Calculate the end date of the useful life directly
-                                                $endOfUsefulLife = clone $acquisitionDate;
-                                                $endOfUsefulLife->modify("+{$usefulLifeYears} years");
-
-                                                $interval = $currentDate->diff($endOfUsefulLife);
-
-                                                if ($currentDate > $endOfUsefulLife) {
-                                                    $remainingDays = -$interval->days; // Use negative value for overdue days
-                                                } else {
-                                                    $remainingDays = $interval->days;
-                                                }
-
-                                                $message = "{$remainingDays} hari";
-
-                                                // Output the message
-                                                // echo $message;
-
-                                                $usefulLifeYears = $inv->useful_life;
-                                                $depreciationRate = 1 / $usefulLifeYears; // Calculate the depreciation rate
-
-                                                // Initialize variables
-                                                $acquisitionValue = $inv->acquisition_value;
-                                                $yearsUsed = $acquisitionDate->diff($currentDate)->y;
-                                                $depreciatedValue = $acquisitionValue;
-                                                $accumulatedDepreciation = 0;
-
-                                                for ($year = 1; $year <= $yearsUsed; $year++) {
-                                                    $annualDepreciation = $depreciatedValue * $depreciationRate;
-                                                    $accumulatedDepreciation += $annualDepreciation;
-                                                    $depreciatedValue -= $annualDepreciation;
-
-                                                    // Ensure depreciated value doesn't go below zero
-                                                    if ($depreciatedValue < 0) {
-                                                        $depreciatedValue = 0;
-                                                        break;
-                                                    }
-                                                }
-
-                                                // Ensure the values are appropriately handled when useful life is zero or not defined
-                                                if ($usefulLifeYears == 0) {
-                                                    $depreciatedValue = $acquisitionValue;
-                                                }
-
-                                                // Output the final depreciated value and accumulated depreciation
-                                                // echo "Depreciated Value: " . $depreciatedValue . "\n";
-                                                // echo "Accumulated Depreciation: " . $accumulatedDepreciation . "\n";
-                                            }
-                                            ?>
-                                            @if (Auth::check() && (Auth::user()->location != 'Site Molore' && Auth::user()->location != 'Office Kendari'))
-                                            @if($inv->acquisition_value == 0)
-                                            <td>-</td>
-                                            @else
-                                            <td>{{ number_format($inv->acquisition_value, 0, ',', '.') }}</td>
-                                            @endif
-                                            @if($inv->acquisition_value == 0)
-                                            <td>-</td>
-                                            @else
-                                            <td>{{ $depreciatedValueFormatted = $depreciatedValue === '-' ? '-' : number_format($depreciatedValue, 0, ',', '.'); }}</td>
-                                            @endif
-                                            @endif
-                                            <td>{{ $message }}</td>
-                                            <td>{{ $inv->status ?? '-' }}</td>
-                                            <td>{{ $inv->hand_over_date ?? '-' }}</td>
-                                            <td>{{ $inv->user ?? '-' }}</td>
                                             @if (Auth::check() && Auth::user()->status == 'Administrator' || Auth::user()->status == 'Super Admin')
                                             <td>
                                                 <div class="d-flex align-items-center justify-content-center">
@@ -629,18 +321,8 @@
     <!-- Initialize DataTable -->
     <script>
         $(document).ready(function() {
-            // DataTable khusus untuk Laptop & PC (urut Comp Name, Kode Asset, Dept)
-            var laptopTable = $('#laptopTable').DataTable({
+            var table = $('#assetTable').DataTable({
                 "pageLength": 50,
-                "columnDefs": [{
-                        "orderable": true,
-                        "targets": [1, 0, 19]
-                    }, // Comp Name, Kode Asset, Dept
-                    {
-                        "orderable": false,
-                        "targets": '_all'
-                    }
-                ],
                 "order": [
                     [1, 'asc'], // Comp Name
                     [0, 'asc'], // Kode Asset
@@ -649,33 +331,21 @@
                 "dom": '<"top">rt<"bottom"ip><"clear">',
             });
 
-            // DataTable untuk tabel lain
-            $('.inventoryTable').not('#laptopTable').DataTable({
-                "pageLength": 50,
-                "columnDefs": [{
-                        "orderable": true,
-                        "targets": [0]
-                    },
-                    {
-                        "orderable": false,
-                        "targets": '_all'
-                    }
-                ],
-                "order": [
-                    [9, 'desc']
-                ],
-                "dom": '<"top">rt<"bottom"ip><"clear">',
-            });
-
-            // Searchbox untuk semua tabel
             $('#searchbox').on('keyup', function() {
-                laptopTable.search(this.value).draw();
-                $('.inventoryTable').not('#laptopTable').DataTable().search(this.value).draw();
-
+                table.search(this.value).draw();
                 if (this.value.length >= 13) {
                     setTimeout(() => {
                         this.select();
                     }, 2000);
+                }
+            });
+
+            $('#categoryFilter').on('change', function() {
+                var val = this.value;
+                if (val) {
+                    table.column(3).search('^' + val + '$', true, false).draw();
+                } else {
+                    table.column(3).search('').draw();
                 }
             });
         });

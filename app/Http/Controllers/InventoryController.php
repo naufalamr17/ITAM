@@ -18,24 +18,23 @@ class InventoryController extends Controller
     public function index()
     {
         if (Auth::user()->status == 'Administrator' || Auth::user()->hirar == 'Manager' || Auth::user()->hirar == 'Deputy General Manager') {
-            // Ambil semua inventory yang statusnya bukan 'Dispose' dan urutkan berdasarkan acquisition_date desc
             $inventory = Inventory::where('status', '!=', 'Dispose')
                 ->orderBy('acquisition_date', 'desc')
                 ->get();
         } else {
             $inventory = Inventory::where('status', '!=', 'Dispose')
-                ->where('location', 'Office Kendari')
-                ->orWhere('location', 'Site Molore')
+                ->where(function($query) {
+                    $query->where('location', 'Office Kendari')
+                          ->orWhere('location', 'Site Molore');
+                })
                 ->orderBy('acquisition_date', 'desc')
                 ->get();
         }
 
-        // Grouping inventory based on description
-        $group1 = $inventory->whereIn('description', ['Wireless', 'Switch']);
-        $group2 = $inventory->whereIn('description', ['Scanner', 'Printer']);
-        $group3 = $inventory->whereIn('description', ['PC', 'Laptop']);
+        // Ambil semua kategori unik untuk filter
+        $categories = $inventory->pluck('description')->unique()->values();
 
-        return view('pages.asset.input', compact('group1', 'group2', 'group3'));
+        return view('pages.asset.input', compact('inventory', 'categories'));
     }
 
     public function addinventory()
