@@ -23,7 +23,7 @@
 
         /* CSS to make the table scrollable */
         .table-responsive {
-            max-height: 300px;
+            max-height: 500px;
             /* Set the desired maximum height */
             overflow-y: auto;
         }
@@ -161,7 +161,7 @@
 
                         <div class="card-body px-2 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0" id="assetTable">
+                                <table id="assetTable" class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
                                             <th class="text-center text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Kode Asset') }}</th>
