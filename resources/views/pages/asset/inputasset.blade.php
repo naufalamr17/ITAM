@@ -39,12 +39,21 @@
 
                                         <div class="form-group">
                                             <label for="location">Location</label>
+                                            @if(Auth::user()->status == 'Administrator')
+                                            <select id="location" class="form-control border p-2" name="location" required>
+                                                <option value="" disabled {{ empty($userLocation) ? 'selected' : '' }}>Select Location</option>
+                                                <option value="Head Office" {{ old('location', $userLocation) == 'Head Office' ? 'selected' : '' }}>Head Office</option>
+                                                <option value="Office Kendari" {{ old('location', $userLocation) == 'Office Kendari' ? 'selected' : '' }}>Office Kendari</option>
+                                                <option value="Site Molore" {{ old('location', $userLocation) == 'Site Molore' ? 'selected' : '' }}>Site Molore</option>
+                                            </select>
+                                            @else
                                             <select id="location" class="form-control border p-2" name="location" required readonly>
-                                                <option value="" selected disabled>Select Location</option>
+                                                <option value="" disabled>Select Location</option>
                                                 <option value="Head Office" {{ $userLocation == 'Head Office' ? 'selected' : 'disabled' }}>Head Office</option>
                                                 <option value="Office Kendari" {{ $userLocation == 'Office Kendari' ? 'selected' : 'disabled' }}>Office Kendari</option>
                                                 <option value="Site Molore" {{ $userLocation == 'Site Molore' ? 'selected' : 'disabled' }}>Site Molore</option>
                                             </select>
+                                            @endif
                                             @if ($errors->has('location'))
                                             <div class="text-danger mt-2">{{ $errors->first('location') }}</div>
                                             @endif
