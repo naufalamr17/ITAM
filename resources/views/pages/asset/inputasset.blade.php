@@ -54,21 +54,12 @@
                                             <label for="description">Category</label>
                                             <input list="asset_categories" id="description" class="form-control border p-2" name="description" required value="{{ old('description') }}">
                                             <datalist id="asset_categories">
-                                                <option value="Laptop">
-                                                <option value="PC">
+                                                <option value="Laptop/PC">
                                                 <option value="Wireless">
                                                 <option value="Printer">
                                             </datalist>
                                             @if ($errors->has('description'))
                                             <div class="text-danger mt-2">{{ $errors->first('description') }}</div>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="comp_name">Comp Name</label>
-                                            <input id="comp_name" class="form-control border p-2" type="text" name="comp_name" value="{{ old('comp_name') }}" autofocus>
-                                            @if ($errors->has('comp_name'))
-                                            <div class="text-danger mt-2">{{ $errors->first('comp_name') }}</div>
                                             @endif
                                         </div>
 

@@ -23,9 +23,9 @@ class InventoryController extends Controller
                 ->get();
         } else {
             $inventory = Inventory::where('status', '!=', 'Dispose')
-                ->where(function($query) {
+                ->where(function ($query) {
                     $query->where('location', 'Office Kendari')
-                          ->orWhere('location', 'Site Molore');
+                        ->orWhere('location', 'Site Molore');
                 })
                 ->orderBy('acquisition_date', 'desc')
                 ->get();
@@ -54,7 +54,7 @@ class InventoryController extends Controller
             'asset_code' => 'nullable|string',
             'location' => 'nullable|string',
             'description' => 'required|string',
-            'comp_name' => 'nullable|string',
+            // 'comp_name' => 'nullable|string', // Hapus validasi comp_name
             'merk' => 'nullable|string',
             'type' => 'nullable|string',
             'specification' => 'nullable|string',
@@ -71,6 +71,42 @@ class InventoryController extends Controller
             'dept' => 'nullable|string',
             'note' => 'nullable|string',
         ]);
+
+        // Generate comp_name jika kategori Laptop/PC/PC/Laptop
+        $desc = strtolower(trim($validatedData['description']));
+        if (in_array($desc, ['laptop', 'pc', 'laptop/pc'])) {
+            $location = $validatedData['location'];
+            if ($location == 'Head Office') {
+                $prefix = 'MLPJNB';
+            } elseif ($location == 'Office Kendari') {
+                $prefix = 'MLPMNB';
+            } elseif ($location == 'Site Molore') {
+                $prefix = 'MLPKNB';
+            } else {
+                $prefix = 'MLPXXX';
+            }
+
+            // Hitung iterasi terakhir untuk lokasi dan prefix ini
+            $last = \App\Models\inventory::where('location', $location)
+                ->where(function ($q) {
+                    $q->whereRaw("LOWER(description) = 'laptop'")
+                        ->orWhereRaw("LOWER(description) = 'pc'")
+                        ->orWhereRaw("LOWER(description) = 'laptop/pc'");
+                })
+                ->whereNotNull('comp_name')
+                ->where('comp_name', 'like', $prefix . '%')
+                ->orderByDesc('comp_name')
+                ->first();
+
+            if ($last && preg_match('/^' . $prefix . '(\d{4})$/', $last->comp_name, $m)) {
+                $next = str_pad(((int)$m[1]) + 1, 4, '0', STR_PAD_LEFT);
+            } else {
+                $next = '0001';
+            }
+            $validatedData['comp_name'] = $prefix . $next;
+        } else {
+            $validatedData['comp_name'] = null;
+        }
 
         // Simpan data aset ke dalam database
         $asset = Inventory::create($validatedData);
