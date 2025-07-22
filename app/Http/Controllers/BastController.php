@@ -219,21 +219,21 @@ class BastController extends Controller
         $formattedDate = Carbon::parse($bast->date)->translatedFormat('l, d F Y'); // Format date in Indonesian
 
         // Replace placeholders in the template with actual data
-        $templateProcessor->setValue('No', $bast->no);
-        $templateProcessor->setValue('date', $formattedDate);
-        $templateProcessor->setValue('nama1', $bast->pic);
-        $templateProcessor->setValue('nik1', $nik1); // Example of setting different values
-        $templateProcessor->setValue('jabatan1', $jabatan1);
-        $templateProcessor->setValue('nama2', $nama2);
-        $templateProcessor->setValue('nik2', $bast->nik_user); // Set nik2 to nik_user if needed
-        $templateProcessor->setValue('jabatan2', $jabatan2);
-        $templateProcessor->setValue('barang', $bast->jenis_barang);
-        $templateProcessor->setValue('merk', $bast->merk);
-        $templateProcessor->setValue('tipe', $bast->type);
-        $templateProcessor->setValue('serial', $bast->serial_number);
-        $templateProcessor->setValue('warna', $bast->color);
-        $templateProcessor->setValue('spec', $bast->spesifikasi);
-        $templateProcessor->setValue('kelengkapan', $bast->kelengkapan);
+        $templateProcessor->setValue('No', htmlspecialchars($bast->no, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('date', htmlspecialchars($formattedDate, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('nama1', htmlspecialchars($bast->pic, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('nik1', htmlspecialchars($nik1, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('jabatan1', htmlspecialchars($jabatan1, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('nama2', htmlspecialchars($nama2, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('nik2', htmlspecialchars($bast->nik_user, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('jabatan2', htmlspecialchars($jabatan2, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('barang', htmlspecialchars($bast->jenis_barang, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('merk', htmlspecialchars($bast->merk, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('tipe', htmlspecialchars($bast->type, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('serial', htmlspecialchars($bast->serial_number, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('warna', htmlspecialchars($bast->color, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('spec', htmlspecialchars($bast->spesifikasi, ENT_QUOTES, 'UTF-8'));
+        $templateProcessor->setValue('kelengkapan', htmlspecialchars($bast->kelengkapan, ENT_QUOTES, 'UTF-8'));
 
         // Save the processed document
         $outputFileName = 'BAST_' . $bast->nik_user . '.docx';
