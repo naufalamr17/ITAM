@@ -26,6 +26,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\NetworkController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\RfmController;
 use App\Http\Controllers\SessionsController;
 use App\Models\dispose;
 use App\Models\employee;
@@ -47,6 +48,14 @@ Route::get('verify', function () {
 Route::get('/reset-password/{token}', function ($token) {
 	return view('sessions.password.reset', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
+
+Route::get('/rfm', [RfmController::class, 'index'])->name('rfm');
+Route::get('/rfm/data', [RfmController::class, 'data'])->name('rfms.data');
+Route::post('/rfm/store', [RfmController::class, 'store'])->name('rfms.store');
+Route::get('/rfm/{rfm}', [RfmController::class, 'show'])->name('rfms.show');
+Route::put('/rfm/{rfm}', [RfmController::class, 'update'])->name('rfms.update');
+Route::delete('/rfm/{rfm}', [RfmController::class, 'destroy'])->name('rfms.destroy');
+Route::get('/rfm/{rfm}/download', [RfmController::class, 'download'])->name('rfms.download');
 
 Route::get('/document', [DocumentationController::class, 'index'])->name('documentation')->middleware('auth');
 Route::post('/document/store', [DocumentationController::class, 'store'])->name('documentation.store')->middleware('auth');

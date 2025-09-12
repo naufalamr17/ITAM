@@ -70,6 +70,14 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ $activePage == 'rfm' ? 'active bg-gradient-dark' : '' }}" href="{{ route('rfm') }}" style="color: {{ $activePage == 'rfm' ? 'white' : 'black' }};">
+                    <div class="text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-file-alt" style="color: {{ $activePage == 'rfm' ? 'white' : 'black' }};"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">RFM</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ $activePage == 'report' ? ' active bg-gradient-dark' : '' }}" href="{{ route('report') }}" style="color: {{ $activePage == 'report' ? 'white' : 'black' }};">
                     <div class="text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-chart-line" style="color: {{ $activePage == 'report' ? 'white' : 'black' }};"></i>
