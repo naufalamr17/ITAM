@@ -73,22 +73,22 @@ class RfmController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'no_rfm' => ['required', 'string', 'max:191', 'unique:rfms,no_rfm'],
+            'no_rfm' => ['required', 'string', 'max:191'], // nomor urut saja
+            'lokasi' => ['required', 'in:JKT,KDI,SITE'],
             'deskripsi' => ['required', 'string'],
             'dokumen_pdf' => ['nullable', 'file', 'mimetypes:application/pdf', 'max:10240'],
         ]);
 
-        // Ambil digit awal dari input
-        $digitAwal = $validated['no_rfm'];
-
-        // Format tambahan otomatis
+        // Ambil data dari input
+        $digitAwal = $validated['no_rfm']; // nomor urut
+        $lokasi = $validated['lokasi'];    // JKT, KDI, SITE
         $bulan = $this->getRomanMonth(now()->month);
         $tahun = now()->year;
 
-        // Gabungkan jadi format final
-        $validated['no_rfm'] = "{$digitAwal}/RFM/MLP-JKT/{$bulan}/{$tahun}";
+        // Format final No RFM
+        $validated['no_rfm'] = "{$digitAwal}/RFM/MLP-{$lokasi}/{$bulan}/{$tahun}";
 
-        // Upload PDF jika ada
+        // Upload file jika ada
         if ($request->hasFile('dokumen_pdf')) {
             $validated['dokumen_pdf'] = $request->file('dokumen_pdf')->store('rfms', 'public');
         }
