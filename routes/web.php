@@ -49,13 +49,13 @@ Route::get('/reset-password/{token}', function ($token) {
 	return view('sessions.password.reset', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
 
-Route::get('/rfm', [RfmController::class, 'index'])->name('rfm');
-Route::get('/rfm/data', [RfmController::class, 'data'])->name('rfms.data');
-Route::post('/rfm/store', [RfmController::class, 'store'])->name('rfms.store');
-Route::get('/rfm/{rfm}', [RfmController::class, 'show'])->name('rfms.show');
-Route::put('/rfm/{rfm}', [RfmController::class, 'update'])->name('rfms.update');
-Route::delete('/rfm/{rfm}', [RfmController::class, 'destroy'])->name('rfms.destroy');
-Route::get('/rfm/{rfm}/download', [RfmController::class, 'download'])->name('rfms.download');
+Route::get('/rfm', [RfmController::class, 'index'])->name('rfm')->middleware('auth');
+Route::get('/rfm/data', [RfmController::class, 'data'])->name('rfms.data')->middleware('auth');
+Route::post('/rfm/store', [RfmController::class, 'store'])->name('rfms.store')->middleware('auth');
+Route::get('/rfm/{rfm}', [RfmController::class, 'show'])->name('rfms.show')->middleware('auth');
+Route::put('/rfm/{rfm}', [RfmController::class, 'update'])->name('rfms.update')->middleware('auth');
+Route::delete('/rfm/{rfm}', [RfmController::class, 'destroy'])->name('rfms.destroy')->middleware('auth');
+Route::get('/rfm/{rfm}/download', [RfmController::class, 'download'])->name('rfms.download')->middleware('auth');
 
 Route::get('/document', [DocumentationController::class, 'index'])->name('documentation')->middleware('auth');
 Route::post('/document/store', [DocumentationController::class, 'store'])->name('documentation.store')->middleware('auth');
