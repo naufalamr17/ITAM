@@ -40,6 +40,14 @@
                                         </button>
                                     </div>
                                     @endif
+                                    @if (Session::has('error'))
+                                    <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                                        <span class="text-sm">{{ Session::get('error') }}</span>
+                                        <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    @endif
                                     <div style="margin-top: 1rem; position: relative;">
                                         <label style="position: absolute; top: -0.5rem; left: 0.75rem; background: white; padding: 0 0.25rem; font-size: 0.6 rem; color: #6b7280;">Email</label>
                                         <input type="email" name="email" style="display: block; width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgb(8, 47, 73); border-radius: 0.375rem; font-size: 0.875rem; line-height: 1.5rem; color: #374151;" autofocus>
@@ -61,6 +69,18 @@
                                         </div> -->
                                     <div class="text-center">
                                         <button type="submit" class="btn w-100 my-4 mb-2" style="background-color: rgb(8, 47, 73); color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer;">Log In</button>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-secondary text-sm">Or continue with</p>
+                                        <a href="{{ route('azure.login') }}" class="btn w-100 mb-2" style="background-color: white; color: #444; border: 1px solid #ccc; padding: 12px 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 21 21" style="margin-right: 10px;">
+                                                <rect x="1" y="1" width="9" height="9" fill="#f25022"></rect>
+                                                <rect x="11" y="1" width="9" height="9" fill="#7fba00"></rect>
+                                                <rect x="1" y="11" width="9" height="9" fill="#00a4ef"></rect>
+                                                <rect x="11" y="11" width="9" height="9" fill="#ffb900"></rect>
+                                            </svg>
+                                            <span style="font-weight: 500;">Sign in with Microsoft</span>
+                                        </a>
                                     </div>
                                 </form>
                             </div>

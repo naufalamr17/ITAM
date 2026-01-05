@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccessController;
 use App\Http\Controllers\BastController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +49,10 @@ Route::get('verify', function () {
 Route::get('/reset-password/{token}', function ($token) {
 	return view('sessions.password.reset', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
+
+Route::get('/auth/azure/redirect', [AuthController::class, 'redirectToAzure'])->name('azure.login');
+Route::get('/auth/azure/callback', [AuthController::class, 'handleAzureCallback'])->name('azure.callback');
+
 
 Route::get('/rfm', [RfmController::class, 'index'])->name('rfm')->middleware('auth');
 Route::get('/rfm/data', [RfmController::class, 'data'])->name('rfms.data')->middleware('auth');
